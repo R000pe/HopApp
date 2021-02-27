@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">HopApp</string>
+
+    <string-array name="routines">
+        <item>Read</item>
+        <item>Walk</item>
+        <item>Water</item>
+        <item>Draw</item>
+        <item>Meditate</item>
+        <item>Stretch</item>
+    </string-array>
+
+    <string-array name="description">
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+    </string-array>
 </resources>
