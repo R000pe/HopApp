@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HopApp">
-        <activity android:name=".routinesPage"></activity>
+        <activity android:name=".Calendar"></activity>
+        <activity android:name=".routinesPage" />
         <activity android:name=".MainMenu" />
         <activity
             android:name=".TaskViewActivity"

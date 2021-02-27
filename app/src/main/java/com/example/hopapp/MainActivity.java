@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     //make buttons
     private Button mainMenuButton;
     private Button taskButton;
+    private Button calendarButton;
 
     //new strings, in which we save data for description, title and image of a task
     String s1[], s2[];
@@ -50,11 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
         mainMenuButton = findViewById(R.id.mainMenuButton);
         taskButton = findViewById(R.id.taskButton);
+        calendarButton = findViewById(R.id.calendarButton);
 
         //wait for button click
         //do this method
         mainMenuButton.setOnClickListener(v -> openActivityMainMenu());
         taskButton.setOnClickListener(v -> openRoutinesPage());
+        calendarButton.setOnClickListener(v -> openCalendar());
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -89,9 +92,14 @@ public class MainActivity extends AppCompatActivity {
         Intent mainMenuIntent = new Intent(this, MainMenu.class);
         startActivity(mainMenuIntent);
     }
-    //get intent and change activities to all routines page
+    //get intent and change activities to routines page
     public void openRoutinesPage(){
         Intent routinesPageIntent = new Intent(this, routinesPage.class);
         startActivity(routinesPageIntent);
+    }
+    //get intent and change activities to calendar
+    public void openCalendar(){
+        Intent calendarIntent = new Intent(this, Calendar.class);
+        startActivity(calendarIntent);
     }
 }
