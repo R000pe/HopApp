@@ -23,7 +23,7 @@
             android:summary="Enter your birth year"
             android:dialogMessage="Enter your birth year"
             android:dialogTitle="Enter your birth year"
-            android:inputType="date"/>
+            android:inputType="number"/>
 
     </PreferenceCategory>
 </PreferenceScreen>
