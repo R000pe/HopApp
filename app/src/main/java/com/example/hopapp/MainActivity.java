@@ -8,9 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 //This is the main page with recycleView.
 // RecycleView is similar to list view, but more flexible (animations, etc).
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     //R.drawable.default_logo is the image, and for now is the same for them all
     int images[] = {R.drawable.default_logo, R.drawable.default_logo, R.drawable.default_logo, R.drawable.default_logo,
             R.drawable.default_logo, R.drawable.default_logo, R.drawable.default_logo, R.drawable.default_logo,};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,21 @@ public class MainActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+        .getBoolean("isFirstRun", true);
+
+        if (isFirstRun) {
+            //show start activity
+            Intent Pre_PollIntent = new Intent(MainActivity.this, Pre_Poll.class);
+            startActivity(Pre_PollIntent);
+        }
+
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).apply();
     }
+
 
     //set a simplecallback which reacts to gestures
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT |
@@ -71,13 +90,14 @@ public class MainActivity extends AppCompatActivity {
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
         }
+
         //determines what happens when you swipe something on the list right / left
         //this also does nothing for now
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
 
-            switch (direction){
+            switch (direction) {
                 case ItemTouchHelper.LEFT:
 
                     break;
@@ -87,18 +107,39 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //
+        getMenuInflater().inflate(R.menu.settingsmenu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent optionsMenuIntent = new Intent(this, Settings.class);
+                startActivity(optionsMenuIntent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     //get intent and change activities to main menu
-    public void openActivityMainMenu(){
+    public void openActivityMainMenu() {
         Intent mainMenuIntent = new Intent(this, MainMenu.class);
         startActivity(mainMenuIntent);
     }
+
     //get intent and change activities to routines page
-    public void openRoutinesPage(){
+    public void openRoutinesPage() {
         Intent routinesPageIntent = new Intent(this, routinesPage.class);
         startActivity(routinesPageIntent);
     }
+
     //get intent and change activities to calendar
-    public void openCalendar(){
+    public void openCalendar() {
         Intent calendarIntent = new Intent(this, Calendar.class);
         startActivity(calendarIntent);
     }

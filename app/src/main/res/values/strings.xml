@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">HopApp</string>
+    <string name="settings">Settings</string>
+    <string name="apply">Apply</string>
+    <string name="birthyear">BirthYear</string>
+    <string name="name">Name</string>
 
     <string-array name="routines">
         <item>Read</item>
