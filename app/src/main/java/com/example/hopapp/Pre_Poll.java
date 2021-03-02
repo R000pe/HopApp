@@ -33,6 +33,7 @@ public class Pre_Poll extends AppCompatActivity {
 
         SharedPreferences.Editor settings_editor = settings_prefs.edit();
         settings_editor.putString("full_name", name).commit();
+        settings_editor.putString("age", age).commit();
     }
 
     public void onButtonCLicked(View view) {
