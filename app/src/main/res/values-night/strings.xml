@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_gallery_storage">score_String</string>
+    <string name="Score">score</string>
+</resources>

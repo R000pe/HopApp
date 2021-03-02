@@ -4,6 +4,8 @@
     <string name="apply">Apply</string>
     <string name="birthyear">BirthYear</string>
     <string name="name">Name</string>
+    <string name="default_gallery_storage">score_String</string>
+    <string name="Score">score</string>
 
     <string-array name="routines">
         <item>Read</item>

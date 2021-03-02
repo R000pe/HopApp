@@ -10,6 +10,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Button taskButton;
     private Button calendarButton;
 
+
     //new strings, in which we save data for description, title and image of a task
     String s1[], s2[];
     //R.drawable.default_logo is the image, and for now is the same for them all
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         //remembers the last instance state
         super.onCreate(savedInstanceState);
         //we're using the main page activity
@@ -142,5 +145,15 @@ public class MainActivity extends AppCompatActivity {
     public void openCalendar() {
         Intent calendarIntent = new Intent(this, Calendar.class);
         startActivity(calendarIntent);
+    }
+    //TÄMÄ ON PISTESYSTEEMIN TESTIKOODI
+    public void ontestiButtonClicked(View view) {
+        SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        int score = Integer.parseInt(score_prefs.getString("score", "0"));
+        score++;
+        String saveScore = Integer.toString(score);
+        SharedPreferences.Editor settings_editor = score_prefs.edit();
+        settings_editor.putString("score", saveScore).commit();
+
     }
 }

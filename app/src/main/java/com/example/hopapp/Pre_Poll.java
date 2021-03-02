@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 public class Pre_Poll extends AppCompatActivity {
     private EditText TextName, TextAge;
-    private Button Apply;
+
 
 
     @Override

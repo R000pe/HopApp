@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="Achievements">
+
+        <EditTextPreference
+            android:title="Score"
+            android:icon="@drawable/porkkana"
+            android:defaultValue="0"
+            android:key="score"
+            android:summary=""
+            android:enabled="true"
+            android:selectable="true"
+            android:inputType="none"
+            android:focusable="false"
+            />
+
+
+
+
+    </PreferenceCategory>
     <PreferenceCategory android:title="Personal information">
 
         <EditTextPreference
             android:defaultValue=""
-            android:key="full_name"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="Your full name"
             android:dialogMessage="Enter your full name"
             android:dialogTitle="Enter your full name"
             android:inputType="textCapWords"
-            android:summary="Enter your full name to be used in the application"/>
+            android:key="full_name"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Enter your full name to be used in the application"
+            android:title="Your full name" />
 
         <EditTextPreference
             android:defaultValue=""
+            android:dialogMessage="Enter your birth year"
+            android:dialogTitle="Enter your birth year"
+            android:inputType="number"
             android:key="age"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Age"
             android:summary="Enter your birth year"
-            android:dialogMessage="Enter your birth year"
-            android:dialogTitle="Enter your birth year"
-            android:inputType="number"/>
+            android:title="Age" />
 
     </PreferenceCategory>
 </PreferenceScreen>
