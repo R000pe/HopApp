@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 .getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
-            //show start activity
+            //
             Intent Pre_PollIntent = new Intent(MainActivity.this, Pre_Poll.class);
             startActivity(Pre_PollIntent);
         }

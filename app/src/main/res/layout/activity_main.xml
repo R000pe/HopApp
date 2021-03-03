@@ -13,6 +13,7 @@
         android:layout_marginTop="140dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Testi" />
 
@@ -60,14 +61,13 @@
 
     <Button
         android:id="@+id/Testi"
-        android:layout_width="78dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="100dp"
+        android:layout_width="92dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="4dp"
         android:onClick="ontestiButtonClicked"
         android:text="Testi"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
