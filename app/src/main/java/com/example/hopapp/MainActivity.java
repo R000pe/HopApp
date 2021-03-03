@@ -30,7 +30,8 @@ import java.util.HashSet;
 public class MainActivity extends AppCompatActivity {
     //Make a new recycle view
     public RecyclerView recyclerView;
-    ArrayList<Routine> routineList = new ArrayList<>();
+    //ArrayList<Routine> routineList = new ArrayList<>();
+    public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
     //make buttons
     public Button mainMenuButton;
     public Button taskButton;
@@ -73,14 +74,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void adapterMethod(){
-        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(routineList);
+        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter((ArrayList<Routine>) s.getSelectedRoutines()); //täällä luki routineList
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void updateMessage() {
         TextView textNull = (TextView) findViewById(R.id.nullText);
-        if(routineList.size() <= 0){
+        if(s.getSelectedRoutines().size() <= 0){ //täällä luki routineList.size()
             textNull.setText("No routines set yet");
         }else {
             textNull.setText("");
@@ -183,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
             index = extras.getInt("index");
 
             //add to the main page list
-            routineList.add(index,  new Routine(image, title, desc));
-
+            s.getSelectedRoutines().add(index,  new Routine(image, title, desc));
+            System.out.println(s.getSelectedRoutines().size());
             //update the message so it dissappears
             updateMessage();
         }
