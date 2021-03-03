@@ -1,55 +1,61 @@
 package com.example.hopapp;
 
-import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+//this is almost identical adapter to the recyclerviewadapter, but this one works a little different compared to the other one for now
+//so its better to have different adapters for now to avoid crashes
+
+public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.MyViewHolder> {
     private ArrayList<Routine> mRoutineList;
+    private OnClickListener listener;
 
-    public RecyclerViewAdapter(ArrayList<Routine> routineList){
-
+    public RoutinePageAdapter(ArrayList<Routine> routineList, OnClickListener listener){
+        this.listener = listener;
         mRoutineList = routineList;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
         public ImageView mAddRoutine;
+        OnClickListener onClickListener;
 
-        //viewholder makes the actual view, so here we set the text and image id
-        public MyViewHolder (View itemView){
+        public MyViewHolder (View itemView, OnClickListener onClickListener){
             super(itemView);
             mImageView = itemView.findViewById(R.id.routineImageView);
             mTextView1 = itemView.findViewById(R.id.routine_title);
             mTextView2 = itemView.findViewById(R.id.routine_desc);
-            //this is the plus sign, needs to be removed later from this adapter
             mAddRoutine = itemView.findViewById(R.id.imageAdd);
+            this.onClickListener = onClickListener;
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            onClickListener.onClick(getAdapterPosition());
+        }
     }
+
 
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_row, parent, false);
-        MyViewHolder evh = new MyViewHolder(v);
-        return evh;
+        MyViewHolder myViewHolder = new MyViewHolder(v, listener);
+        return myViewHolder;
+
     }
 
     @Override
@@ -61,10 +67,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.mTextView2.setText(currentRoutine.getText2());
     }
 
-    //makes the right size list
     @Override
     public int getItemCount() {
         return mRoutineList.size();
+    }
+
+    //make a onclicklistener
+    public interface OnClickListener{
+        void onClick(int position);
     }
 
 

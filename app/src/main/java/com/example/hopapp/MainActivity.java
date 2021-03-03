@@ -11,11 +11,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 //This is the main page with recycleView.
 // RecycleView is similar to list view, but more flexible (animations, etc).
@@ -23,23 +29,16 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     //Make a new recycle view
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
+    ArrayList<Routine> routineList = new ArrayList<>();
     //make buttons
-    private Button mainMenuButton;
-    private Button taskButton;
-    private Button calendarButton;
-
-
-    //new strings, in which we save data for description, title and image of a task
-    String s1[], s2[];
-    //R.drawable.default_logo is the image, and for now is the same for them all
-    int images[] = {R.drawable.default_logo, R.drawable.default_logo, R.drawable.default_logo, R.drawable.default_logo,
-            R.drawable.default_logo, R.drawable.default_logo, R.drawable.default_logo, R.drawable.default_logo,};
-
+    public Button mainMenuButton;
+    public Button taskButton;
+    public Button calendarButton;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         //remembers the last instance state
         super.onCreate(savedInstanceState);
         //we're using the main page activity
@@ -48,31 +47,18 @@ public class MainActivity extends AppCompatActivity {
         //set the recycle view into a parameter
         recyclerView = findViewById(R.id.recyclerView);
 
-        //set the strings to be main page's text views
-        s1 = getResources().getStringArray(R.array.routines);
-        s2 = getResources().getStringArray(R.array.description);
-
-        //new adapter for recycle view
-        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(this, s1, s2, images);
-        recyclerView.setAdapter(myAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        mainMenuButton = findViewById(R.id.mainMenuButton);
-        taskButton = findViewById(R.id.taskButton);
-        calendarButton = findViewById(R.id.calendarButton);
-
-        //wait for button click
-        //do this method
-        mainMenuButton.setOnClickListener(v -> openActivityMainMenu());
-        taskButton.setOnClickListener(v -> openRoutinesPage());
-        calendarButton.setOnClickListener(v -> openCalendar());
+        //1. makes the adapter for this recycle view
+        //2. update the null message on main page
+        //3. assign the buttons, and what they do
+        adapterMethod();
+        updateMessage();
+        assignButtons();
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                .getBoolean("isFirstRun", true);
+        Boolean isFirstRun =  getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+        .getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
             //
@@ -82,8 +68,34 @@ public class MainActivity extends AppCompatActivity {
 
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).apply();
+
+
     }
 
+    private void adapterMethod(){
+        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(routineList);
+        recyclerView.setAdapter(myAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void updateMessage() {
+        TextView textNull = (TextView) findViewById(R.id.nullText);
+        if(routineList.size() <= 0){
+            textNull.setText("No routines set yet");
+        }else {
+            textNull.setText("");
+        }
+    }
+
+    private void assignButtons(){
+        mainMenuButton = findViewById(R.id.mainMenuButton);
+        taskButton = findViewById(R.id.taskButton);
+        calendarButton = findViewById(R.id.calendarButton);
+
+        mainMenuButton.setOnClickListener(v -> openActivityMainMenu());
+        taskButton.setOnClickListener(v -> openRoutinesPage());
+        calendarButton.setOnClickListener(v -> openCalendar());
+    }
 
     //set a simplecallback which reacts to gestures
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT |
@@ -146,8 +158,39 @@ public class MainActivity extends AppCompatActivity {
         Intent calendarIntent = new Intent(this, Calendar.class);
         startActivity(calendarIntent);
     }
-    //TÄMÄ ON PISTESYSTEEMIN TESTIKOODI
-    public void ontestiButtonClicked(View view) {
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        extras = getIntent().getExtras();
+        addRoutineToList();
+    }
+
+    public void addRoutineToList(){
+
+        //if extras, aka intent isn't empty
+        if(extras != null){
+
+            String title;
+            String desc;
+            int image;
+            int index;
+
+            //get intent and assign them to parameters
+            title = extras.getString("title");
+            desc = extras.getString("desc");
+            image = extras.getInt("image");
+            index = extras.getInt("index");
+
+            //add to the main page list
+            routineList.add(index,  new Routine(image, title, desc));
+
+            //update the message so it dissappears
+            updateMessage();
+        }
+    }
+
+    public void onTestiButtonClicked(View view) {
         SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         int score = Integer.parseInt(score_prefs.getString("score", "0"));
         score++;
@@ -156,4 +199,6 @@ public class MainActivity extends AppCompatActivity {
         settings_editor.putString("score", saveScore).commit();
 
     }
+
+
 }
