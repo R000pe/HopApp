@@ -20,7 +20,7 @@ public class SelectedRoutinesSingleton {
         selectedRoutines = new ArrayList<Routine>();
     }
 
-    public List<Routine> getSelectedRoutines()
+    public List<Routine> getSelectedRoutines() // method, that returns the list
     {
         return this.selectedRoutines;
     }

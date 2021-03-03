@@ -30,7 +30,6 @@ import java.util.HashSet;
 public class MainActivity extends AppCompatActivity {
     //Make a new recycle view
     public RecyclerView recyclerView;
-    //ArrayList<Routine> routineList = new ArrayList<>();
     public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
     //make buttons
     public Button mainMenuButton;
@@ -183,10 +182,34 @@ public class MainActivity extends AppCompatActivity {
             image = extras.getInt("image");
             index = extras.getInt("index");
 
-            //add to the main page list
-            s.getSelectedRoutines().add(index,  new Routine(image, title, desc));
-            System.out.println(s.getSelectedRoutines().size());
-            //update the message so it dissappears
+            int y = 0;
+
+            while(y == 0){
+                Routine r = new Routine(image, title, desc);
+                //after current while loop object r wont have a reference & will be deleted by garbage collector
+
+                for (int i = 0; i<s.getSelectedRoutines().size(); i++){ // a for loop through singleton's selectedroutines-list
+                    if(s.getSelectedRoutines().get(i).getText1().equals(r.getText1())){ // once a similar object is found ..
+                        y = 2;
+                        break; // .. for loop will be abrupted
+                    }
+                }
+
+                if(y==2){ // if the for loop turned y = 2 ..
+                    break; // .. while loop will be abrupted
+                }
+
+                y = 1; // if no similar object is found in singleton's list, y = 1
+            } // end of while loop
+
+            if(y == 1) { // if y = 1 after previous while loop ..
+                //add to the main page list
+                s.getSelectedRoutines().add(index, new Routine(image, title, desc)); // .. the object will be added to the list
+            }
+
+            System.out.println(s.getSelectedRoutines().size()); // should be deleted later
+
+            //update the message so it disappears
             updateMessage();
         }
     }
