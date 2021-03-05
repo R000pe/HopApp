@@ -6,35 +6,36 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 
 //This is the main page with recycleView.
 // RecycleView is similar to list view, but more flexible (animations, etc).
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     //Make a new recycle view
     public RecyclerView recyclerView;
+    RecyclerViewAdapter myAdapter;
+    //new singleton
     public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
+
     //make buttons
-    public Button mainMenuButton;
-    public Button taskButton;
-    public Button calendarButton;
+    public ImageButton mainMenuButton;
+    public ImageButton taskButton;
+    public ImageButton calendarButton;
+
+
     Bundle extras;
 
     @Override
@@ -44,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
         //we're using the main page activity
         setContentView(R.layout.activity_main);
 
-        //set the recycle view into a parameter
+        //set the recycler view
         recyclerView = findViewById(R.id.recyclerView);
+        //retrieve the list from preferences
+        s.selectedRoutines = PreConfig.readListFromPref(this);
 
         //1. makes the adapter for this recycle view
         //2. update the null message on main page
@@ -68,16 +71,18 @@ public class MainActivity extends AppCompatActivity {
 
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).apply();
-
-
+        //save list's content into preferences
+        PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
     }
-
+    //makes an adapter for this recycler view
     private void adapterMethod(){
-        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter((ArrayList<Routine>) s.getSelectedRoutines()); //täällä luki routineList
+        myAdapter = new RecyclerViewAdapter((ArrayList<Routine>) s.getSelectedRoutines()); //täällä luki routineList
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    //this method updates the message on main page, if there is or isn't anything on the list
+    //call this everytime something is added or removed
     private void updateMessage() {
         TextView textNull = (TextView) findViewById(R.id.nullText);
         if(s.getSelectedRoutines().size() <= 0){ //täällä luki routineList.size()
@@ -87,14 +92,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //assign all the buttons and their onlick methods
     private void assignButtons(){
         mainMenuButton = findViewById(R.id.mainMenuButton);
         taskButton = findViewById(R.id.taskButton);
         calendarButton = findViewById(R.id.calendarButton);
 
         mainMenuButton.setOnClickListener(v -> openActivityMainMenu());
-        taskButton.setOnClickListener(v -> openRoutinesPage());
+        taskButton.setOnClickListener(v -> openCategoryPage());
         calendarButton.setOnClickListener(v -> openCalendar());
+
     }
 
     //set a simplecallback which reacts to gestures
@@ -114,13 +121,28 @@ public class MainActivity extends AppCompatActivity {
 
             switch (direction) {
                 case ItemTouchHelper.LEFT:
-
+                    s.selectedRoutines.remove(position);
+                    myAdapter.notifyItemRemoved(position);
+                    PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
+                    updateMessage();
                     break;
                 case ItemTouchHelper.RIGHT:
+                    s.selectedRoutines.remove(position);
+                    myAdapter.notifyItemRemoved(position);
+                    PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
+
+                    SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    int score = Integer.parseInt(score_prefs.getString("score", "0"));
+                    score++;
+                    String saveScore = Integer.toString(score);
+                    SharedPreferences.Editor settings_editor = score_prefs.edit();
+                    settings_editor.putString("score", saveScore).commit();
+                    updateMessage();
                     break;
             }
         }
     };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,9 +170,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //get intent and change activities to routines page
-    public void openRoutinesPage() {
-        Intent routinesPageIntent = new Intent(this, routinesPage.class);
-        startActivity(routinesPageIntent);
+    public void openCategoryPage() {
+        Intent categoryPage = new Intent(this, CategoryPage.class);
+        startActivity(categoryPage);
     }
 
     //get intent and change activities to calendar
@@ -204,7 +226,9 @@ public class MainActivity extends AppCompatActivity {
 
             if(y == 1) { // if y = 1 after previous while loop ..
                 //add to the main page list
-                s.getSelectedRoutines().add(index, new Routine(image, title, desc)); // .. the object will be added to the list
+                //s.getSelectedRoutines().add(index, new Routine(image, title, desc)); // .. the object will be added to the list
+                s.getInstance().getSelectedRoutines().add(new Routine(image, title, desc));
+                PreConfig.writeListInPref(getApplicationContext(), s.getSelectedRoutines());
             }
 
             System.out.println(s.getSelectedRoutines().size()); // should be deleted later
@@ -214,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onTestiButtonClicked(View view) {
+    /*public void onTestiButtonClicked(View view) {
         SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         int score = Integer.parseInt(score_prefs.getString("score", "0"));
         score++;
@@ -222,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor settings_editor = score_prefs.edit();
         settings_editor.putString("score", saveScore).commit();
 
-    }
-
+    }*/
 
 }

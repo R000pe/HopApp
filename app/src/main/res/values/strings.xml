@@ -6,22 +6,12 @@
     <string name="name">Name</string>
     <string name="default_gallery_storage">score_String</string>
     <string name="Score">score</string>
+    <string name="excercise">Excercise</string>
+    <string name="anxiety">Anxiety</string>
+    <string name="improvements">Improvements</string>
+    <string name="challenges">Challenges</string>
+    <string name="contentDescriptionAction">button de action</string>
+    <string name="title">Title</string>
+    <string name="desc">Desc</string>
 
-    <string-array name="routines">
-        <item>Read</item>
-        <item>Walk</item>
-        <item>Water</item>
-        <item>Draw</item>
-        <item>Meditate</item>
-        <item>Stretch</item>
-    </string-array>
-
-    <string-array name="description">
-        <item>This is random description</item>
-        <item>This is random description</item>
-        <item>This is random description</item>
-        <item>This is random description</item>
-        <item>This is random description</item>
-        <item>This is random description</item>
-    </string-array>
 </resources>

@@ -1,47 +1,40 @@
-package com.example.hopapp;
+package com.example.hopapp.lists;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.example.hopapp.MainActivity;
+import com.example.hopapp.PreConfig;
+import com.example.hopapp.R;
+import com.example.hopapp.Routine;
+import com.example.hopapp.RoutinePageAdapter;
+import com.example.hopapp.SelectedRoutinesSingleton;
 
 import java.util.ArrayList;
 
-public class routinesPage extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
-
-    //we need to make new main, because main's list is nonstatic, so you cant reference its methods without this
+public class challengesList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
     MainActivity main = new MainActivity();
     private RecyclerView recyclerViewAll;
     ArrayList<Routine> routineList = new ArrayList<>();
-
-    //make buttons
+    public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //remembers the last instance state
         super.onCreate(savedInstanceState);
-        //we're using the main page activity
-        setContentView(R.layout.activity_routines_page);
+        setContentView(R.layout.activity_challenges_list);
 
-        //set the recycle view into a parameter
-        recyclerViewAll = findViewById(R.id.recyclerViewAll);
+        recyclerViewAll = findViewById(R.id.challengesRecyclerView);
 
         //this is the list
-        routineList.add( new Routine(R.drawable.default_logo,"Line 1", "Line 2"));
-        routineList.add(new Routine(R.drawable.default_logo,"Line 3", "Line 4"));
-        routineList.add(new Routine(R.drawable.default_logo,"Line 5", "Line 6"));
+        routineList.add( new Routine(R.drawable.default_logo,"Sugar break", "Don't eat excess sugar for a week"));
+        routineList.add( new Routine(R.drawable.default_logo,"Maybe impossible", "Lessen your screen time to 2h a day"));
+        routineList.add( new Routine(R.drawable.default_logo,"Bad back", "Mind your posture"));
+        routineList.add( new Routine(R.drawable.default_logo,"A poet", "Write a poem"));
+
 
         //new adapter for recycle view
         RoutinePageAdapter reeAdapter = new RoutinePageAdapter(routineList, this);
@@ -49,7 +42,6 @@ public class routinesPage extends AppCompatActivity implements RoutinePageAdapte
         recyclerViewAll.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    //what happens, when u click on one of the cards on the recycle view list
     @Override
     public void onClick(int position) {
         //make new intent for mainclass
@@ -60,9 +52,9 @@ public class routinesPage extends AppCompatActivity implements RoutinePageAdapte
         intent.putExtra("image", routineList.get(position).getmImageResource());
         //do the add to list method in main (it fetches the last intent)
         main.addRoutineToList();
+        PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
+
         //start main activity. only for test purposes, to be removed later
         startActivity(intent);
-
-
     }
 }

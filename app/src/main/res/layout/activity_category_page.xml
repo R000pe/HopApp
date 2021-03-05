@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#c4dbc3"
+    tools:context=".CategoryPage">
+
+    <GridLayout
+        android:layout_width="389dp"
+        android:layout_height="598dp"
+        android:layout_margin="10sp"
+        android:layout_marginTop="200dp"
+        android:columnCount="2"
+        android:rowCount="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <Button
+            android:id="@+id/buttonExercise"
+            android:layout_width="176dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:background="#ffffff"
+            android:text="@string/excercise"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/buttonImprovements"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:background="#ffffff"
+            android:text="@string/improvements"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:background="#ffffff"
+            android:text="Button"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/buttonChallenges"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:background="#ffffff"
+            android:text="@string/challenges"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/buttonAnxiety"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:background="#ffffff"
+            android:text="@string/anxiety"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:background="#ffffff"
+            android:text="Button"
+            android:textSize="18sp" />
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

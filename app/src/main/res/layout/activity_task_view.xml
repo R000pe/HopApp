@@ -14,14 +14,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/default_logo" />
+        app:srcCompat="@drawable/default_logo"
+        android:contentDescription="@string/contentDescriptionAction"/>
 
     <TextView
         android:id="@+id/detailTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="TextView"
+        android:text="@string/title"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text="@string/desc"
         android:textSize="30sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"

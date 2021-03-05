@@ -21,7 +21,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<Routine> mRoutineList;
 
     public RecyclerViewAdapter(ArrayList<Routine> routineList){
-
         mRoutineList = routineList;
     }
 
@@ -39,20 +38,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mTextView2 = itemView.findViewById(R.id.routine_desc);
             //this is the plus sign, needs to be removed later from this adapter
             mAddRoutine = itemView.findViewById(R.id.imageAdd);
+
+            //itemView.setOnClickListener(this);
         }
 
     }
 
 
     @NonNull
-    @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_row, parent, false);
         MyViewHolder evh = new MyViewHolder(v);
         return evh;
     }
 
-    @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Routine currentRoutine = mRoutineList.get(position);
 
@@ -62,7 +61,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     //makes the right size list
-    @Override
     public int getItemCount() {
         return mRoutineList.size();
     }
