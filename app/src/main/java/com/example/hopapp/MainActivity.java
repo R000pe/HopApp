@@ -1,20 +1,26 @@
 package com.example.hopapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +29,7 @@ import java.util.List;
 // RecycleView is similar to list view, but more flexible (animations, etc).
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     //Make a new recycle view
     public RecyclerView recyclerView;
     RecyclerViewAdapter myAdapter;
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        popupMessage();
         //remembers the last instance state
         super.onCreate(savedInstanceState);
         //we're using the main page activity
@@ -66,8 +73,8 @@ public class MainActivity extends AppCompatActivity{
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        Boolean isFirstRun =  getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-        .getBoolean("isFirstRun", true);
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
             //
@@ -81,7 +88,7 @@ public class MainActivity extends AppCompatActivity{
         PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
     }
 
-    private void adapterMethod(){
+    private void adapterMethod() {
         myAdapter = new RecyclerViewAdapter((ArrayList<Routine>) s.getSelectedRoutines()); //täällä luki routineList
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -89,14 +96,14 @@ public class MainActivity extends AppCompatActivity{
 
     private void updateMessage() {
         TextView textNull = (TextView) findViewById(R.id.nullText);
-        if(s.getSelectedRoutines().size() <= 0){ //täällä luki routineList.size()
+        if (s.getSelectedRoutines().size() <= 0) { //täällä luki routineList.size()
             textNull.setText("No routines set yet");
-        }else {
+        } else {
             textNull.setText("");
         }
     }
 
-    private void assignButtons(){
+    private void assignButtons() {
         mainMenuButton = findViewById(R.id.mainMenuButton);
         taskButton = findViewById(R.id.taskButton);
         calendarButton = findViewById(R.id.calendarButton);
@@ -117,23 +124,44 @@ public class MainActivity extends AppCompatActivity{
         }
 
         //determines what happens when you swipe something on the list right / left
-        //this also does nothing for now
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
 
             switch (direction) {
                 case ItemTouchHelper.LEFT:
-                    s.selectedRoutines.remove(position);
-                    myAdapter.notifyItemRemoved(position);
-                    PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
-                    updateMessage();
+                    //Alert dialog confirming deletion of routine on the list
+                    new AlertDialog.Builder(viewHolder.itemView.getContext())
+                            .setTitle("Delete Routine")
+                            .setMessage("Do you really want to delete this routine?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+
+                            .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                                /*User selects yes in alert dialog,
+                                Task gets deleted from list and main menu.*/
+                                s.selectedRoutines.remove(position);
+                                myAdapter.notifyItemRemoved(position);
+                                PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
+                                updateMessage();
+
+                                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Routine Deleted", Snackbar.LENGTH_LONG);
+                                snackbar.show();
+
+                            })
+                            .setNegativeButton("CANCEL", (dialog, id) -> {
+                                /* User cancelled the dialog,
+                                 so we will refresh the adapter to prevent hiding the item from UI*/
+                                myAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                            })
+                            .create()
+                            .show();
                     break;
+
                 case ItemTouchHelper.RIGHT:
                     s.selectedRoutines.remove(position);
                     myAdapter.notifyItemRemoved(position);
                     PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
-
+                    //Get score from sharedprferences ad 1 point and save score
                     SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                     int score = Integer.parseInt(score_prefs.getString("score", "0"));
                     score++;
@@ -191,10 +219,10 @@ public class MainActivity extends AppCompatActivity{
         addRoutineToList();
     }
 
-    public void addRoutineToList(){
+    public void addRoutineToList() {
 
         //if extras, aka intent isn't empty
-        if(extras != null){
+        if (extras != null) {
 
             String title;
             String desc;
@@ -209,25 +237,25 @@ public class MainActivity extends AppCompatActivity{
 
             int y = 0;
 
-            while(y == 0){
+            while (y == 0) {
                 Routine r = new Routine(image, title, desc);
                 //after current while loop object r wont have a reference & will be deleted by garbage collector
 
-                for (int i = 0; i<s.getSelectedRoutines().size(); i++){ // a for loop through singleton's selectedroutines-list
-                    if(s.getSelectedRoutines().get(i).getText1().equals(r.getText1())){ // once a similar object is found ..
+                for (int i = 0; i < s.getSelectedRoutines().size(); i++) { // a for loop through singleton's selectedroutines-list
+                    if (s.getSelectedRoutines().get(i).getText1().equals(r.getText1())) { // once a similar object is found ..
                         y = 2;
                         break; // .. for loop will be abrupted
                     }
                 }
 
-                if(y==2){ // if the for loop turned y = 2 ..
+                if (y == 2) { // if the for loop turned y = 2 ..
                     break; // .. while loop will be abrupted
                 }
 
                 y = 1; // if no similar object is found in singleton's list, y = 1
             } // end of while loop
 
-            if(y == 1) { // if y = 1 after previous while loop ..
+            if (y == 1) { // if y = 1 after previous while loop ..
                 //add to the main page list
                 //s.getSelectedRoutines().add(index, new Routine(image, title, desc)); // .. the object will be added to the list
                 s.getInstance().getSelectedRoutines().add(new Routine(image, title, desc));
@@ -241,14 +269,10 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    /*public void onTestiButtonClicked(View view) {
-        SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        int score = Integer.parseInt(score_prefs.getString("score", "0"));
-        score++;
-        String saveScore = Integer.toString(score);
-        SharedPreferences.Editor settings_editor = score_prefs.edit();
-        settings_editor.putString("score", saveScore).commit();
-
-    }*/
-
+    //Welcome message with user name
+    public void popupMessage(){
+        SharedPreferences name_pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String name = name_pref.getString("full_name", "");
+        Toast.makeText(MainActivity.this, "Hello "+name, Toast.LENGTH_SHORT).show();
+    }
 }
