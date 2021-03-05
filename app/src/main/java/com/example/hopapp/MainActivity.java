@@ -73,15 +73,15 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+        //If first time opening the app
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
-            //
+            //Open pre poll information page
             Intent Pre_PollIntent = new Intent(MainActivity.this, Pre_Poll.class);
             startActivity(Pre_PollIntent);
         }
-
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).apply();
 
@@ -270,9 +270,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Welcome message with user name
-    public void popupMessage(){
+    public void popupMessage() {
         SharedPreferences name_pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String name = name_pref.getString("full_name", "");
-        Toast.makeText(MainActivity.this, "Hello "+name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Hello " + name, Toast.LENGTH_SHORT).show();
     }
 }
