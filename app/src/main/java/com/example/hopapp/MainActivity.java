@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity{
         //s.getSelectedRoutines() = PreConfig.readListFromPref(this);
         s.selectedRoutines = PreConfig.readListFromPref(this);
 
+        if (s.selectedRoutines == null)
+            s.selectedRoutines = new ArrayList<>();
+
         //1. makes the adapter for this recycle view
         //2. update the null message on main page
         //3. assign the buttons, and what they do
