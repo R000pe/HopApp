@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity{
     public ImageButton mainMenuButton;
     public ImageButton taskButton;
     public ImageButton calendarButton;
-    private int i = 0;
+    private int i = 1;
 
 
     Bundle extras;
