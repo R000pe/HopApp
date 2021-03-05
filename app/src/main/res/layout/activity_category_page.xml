@@ -27,7 +27,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
             android:background="#ffffff"
-            android:text="@string/excercise"
+            android:text="Exercise"
             android:textSize="18sp" />
 
         <Button
@@ -36,7 +36,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
             android:background="#ffffff"
-            android:text="@string/improvements"
+            android:text="Improvements"
             android:textSize="18sp" />
 
         <Button
@@ -54,7 +54,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
             android:background="#ffffff"
-            android:text="@string/challenges"
+            android:text="Challenges"
             android:textSize="18sp" />
 
         <Button
@@ -63,7 +63,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
             android:background="#ffffff"
-            android:text="@string/anxiety"
+            android:text="Anxiety"
             android:textSize="18sp" />
 
         <Button
