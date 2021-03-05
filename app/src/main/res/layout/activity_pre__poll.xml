@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pre_Poll"
-    tools:ignore="LabelFor" >
+    tools:context=".Pre_Poll">
 
     <EditText
         android:id="@+id/textFullName"
@@ -17,8 +16,7 @@
         android:text="@string/name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="Your name"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/textBirhtDate"
@@ -29,8 +27,7 @@
         android:inputType="date"
         android:text="@string/birthyear"
         app:layout_constraintStart_toStartOf="@+id/textFullName"
-        app:layout_constraintTop_toBottomOf="@+id/textFullName"
-        android:autofillHints="Your birthyear"/>
+        app:layout_constraintTop_toBottomOf="@+id/textFullName" />
 
     <Button
         android:id="@+id/buttonApply"

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private ArrayList<Routine> mRoutineList;
+    private RecyclerViewClickInterface recyclerViewClickInterface;
 
     public RecyclerViewAdapter(ArrayList<Routine> routineList){
         mRoutineList = routineList;

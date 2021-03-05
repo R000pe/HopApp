@@ -18,9 +18,10 @@ import static android.content.Context.MODE_PRIVATE;
 public class SelectedRoutinesSingleton {
 
     private static SelectedRoutinesSingleton ourInstance;
-    //made the list public, so it can be used in other classes
     public List<Routine> selectedRoutines;
     Context context;
+
+
 
         public static SelectedRoutinesSingleton getInstance(){
         if(ourInstance == null){
@@ -38,4 +39,27 @@ public class SelectedRoutinesSingleton {
     {
         return this.selectedRoutines;
     }
+
+    /*public static void saveData(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(selectedRoutines);
+        editor.putString("task list", json);
+        editor.apply();
+    }
+
+    public void loadData(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("task list", null);
+        Type type = new TypeToken<ArrayList<Routine>>() {}.getType();
+        selectedRoutines = gson.fromJson(json, type);
+
+        if(selectedRoutines == null){
+            selectedRoutines = new ArrayList<>();
+        }
+    }*/
+
+
 }

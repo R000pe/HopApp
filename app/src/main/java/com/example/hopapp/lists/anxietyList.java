@@ -16,21 +16,17 @@ import com.example.hopapp.SelectedRoutinesSingleton;
 
 import java.util.ArrayList;
 
-//all the lists have the same code, apart from different recycler view id and list of course
-//so all the comments for lists will be in this one only
 public class anxietyList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
-    //new main activity, to bypass static and nonstatic error
     MainActivity main = new MainActivity();
     private RecyclerView recyclerViewAll;
     ArrayList<Routine> routineList = new ArrayList<>();
-    //make a new singleton
     public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anxiety_list);
-        //set the recycler view
+
         recyclerViewAll = findViewById(R.id.anxietyRecycleView);
 
         //this is the list
@@ -49,7 +45,6 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
     }
 
     @Override
-    //what happens when a card gets picked (int position gets the index of the item on list)
     public void onClick(int position) {
         //make new intent for mainclass
         Intent intent = new Intent(this, MainActivity.class);
@@ -59,7 +54,6 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
         intent.putExtra("image", routineList.get(position).getmImageResource());
         //do the add to list method in main (it fetches the last intent)
         main.addRoutineToList();
-        //save to prefs
         PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
 
         //start main activity. only for test purposes, to be removed later

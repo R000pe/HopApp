@@ -27,14 +27,14 @@ public class MainActivity extends AppCompatActivity{
     //Make a new recycle view
     public RecyclerView recyclerView;
     RecyclerViewAdapter myAdapter;
-    //new singleton
     public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
 
     //make buttons
     public ImageButton mainMenuButton;
     public ImageButton taskButton;
     public ImageButton calendarButton;
-    private int i = 1;
+    public Button buttonSave;
+    List<String> archivedRoutines = new ArrayList<>();
 
 
     Bundle extras;
@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity{
         //we're using the main page activity
         setContentView(R.layout.activity_main);
 
-        //set the recycler view
+        //set the recycle view into a parameter
         recyclerView = findViewById(R.id.recyclerView);
-        //retrieve the list from preferences
+        //s.getSelectedRoutines() = PreConfig.readListFromPref(this);
         s.selectedRoutines = PreConfig.readListFromPref(this);
 
         //1. makes the adapter for this recycle view
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity{
         adapterMethod();
         updateMessage();
         assignButtons();
+
+        //PreConfig.writeListInPref(getApplicationContext(), s.getSelectedRoutines());
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -72,18 +74,16 @@ public class MainActivity extends AppCompatActivity{
 
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).apply();
-        //save list's content into preferences
+
         PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
     }
-    //makes an adapter for this recycler view
+
     private void adapterMethod(){
         myAdapter = new RecyclerViewAdapter((ArrayList<Routine>) s.getSelectedRoutines()); //täällä luki routineList
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    //this method updates the message on main page, if there is or isn't anything on the list
-    //call this everytime something is added or removed
     private void updateMessage() {
         TextView textNull = (TextView) findViewById(R.id.nullText);
         if(s.getSelectedRoutines().size() <= 0){ //täällä luki routineList.size()
@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    //assign all the buttons and their onlick methods
     private void assignButtons(){
         mainMenuButton = findViewById(R.id.mainMenuButton);
         taskButton = findViewById(R.id.taskButton);
