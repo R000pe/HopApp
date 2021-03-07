@@ -6,6 +6,7 @@
     <string name="name">Name</string>
     <string name="default_gallery_storage">score_String</string>
     <string name="Score">score</string>
+    <string name="buttonInCalendarView">show schedule</string>
 
     <string-array name="routines">
         <item>Read</item>
