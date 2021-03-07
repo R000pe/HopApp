@@ -34,21 +34,21 @@ public class TaskViewActivity extends AppCompatActivity {
         setData();
     }
 
-    private void getData(){
+    private void getData() {
         //if intent has extra with the specific name, set it into parameters
-        if(getIntent().hasExtra("myImage") && getIntent().hasExtra("data1") && getIntent().hasExtra("data2")){
+        if (getIntent().hasExtra("myImage") && getIntent().hasExtra("data1") && getIntent().hasExtra("data2")) {
 
             data1 = getIntent().getStringExtra("data1");
             data2 = getIntent().getStringExtra("data2");
             myImage = getIntent().getIntExtra("myImage", 1);
-        }else{
+        } else {
             //if data isn't found for some reason, give an error
             Toast.makeText(this, "No Data.", Toast.LENGTH_SHORT).show();
         }
     }
 
     //set the data that we got from intent
-    private void setData(){
+    private void setData() {
         detailTitleTextView.setText(data1);
         detailDescTextView.setText(data2);
         detailImageView.setImageResource(myImage);

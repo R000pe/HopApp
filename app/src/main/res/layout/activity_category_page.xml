@@ -67,13 +67,14 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/buttonReward"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
             android:background="#ffffff"
-            android:text="Button"
+            android:text="Reward"
             android:textSize="18sp" />
+
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

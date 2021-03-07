@@ -18,19 +18,19 @@ public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.
     private ArrayList<Routine> mRoutineList;
     private OnClickListener listener;
 
-    public RoutinePageAdapter(ArrayList<Routine> routineList, OnClickListener listener){
+    public RoutinePageAdapter(ArrayList<Routine> routineList, OnClickListener listener) {
         this.listener = listener;
         mRoutineList = routineList;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
         public ImageView mAddRoutine;
         OnClickListener onClickListener;
 
-        public MyViewHolder (View itemView, OnClickListener onClickListener){
+        public MyViewHolder(View itemView, OnClickListener onClickListener) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.routineImageView);
             mTextView1 = itemView.findViewById(R.id.routine_title);
@@ -46,7 +46,6 @@ public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.
             onClickListener.onClick(getAdapterPosition());
         }
     }
-
 
 
     @NonNull
@@ -73,7 +72,7 @@ public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.
     }
 
     //make a onclicklistener
-    public interface OnClickListener{
+    public interface OnClickListener {
         void onClick(int position);
     }
 

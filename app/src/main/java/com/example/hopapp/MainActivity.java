@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -86,6 +88,16 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("isFirstRun", false).apply();
 
         PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
+
+        //Notification Volume. Checks settings for true or false
+        SharedPreferences scorePrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean notificationsMute = scorePrefs.getBoolean("notification_mute", true);
+        AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (notificationsMute == true) {
+            amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0);
+        } else {
+            amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0);
+        }
     }
 
     private void adapterMethod() {
@@ -136,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                             .setMessage("Do you really want to delete this routine?")
                             .setIcon(android.R.drawable.ic_dialog_alert)
 
-                            .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                            .setPositiveButton("YES", (dialog, whichButton) -> {
                                 /*User selects yes in alert dialog,
                                 Task gets deleted from list and main menu.*/
                                 s.selectedRoutines.remove(position);
@@ -148,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                                 snackbar.show();
 
                             })
-                            .setNegativeButton("CANCEL", (dialog, id) -> {
+                            .setNegativeButton("NO", (dialog, id) -> {
                                 /* User cancelled the dialog,
                                  so we will refresh the adapter to prevent hiding the item from UI*/
                                 myAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
@@ -162,11 +174,11 @@ public class MainActivity extends AppCompatActivity {
                     myAdapter.notifyItemRemoved(position);
                     PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
                     //Get score from sharedprferences ad 1 point and save score
-                    SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                    int score = Integer.parseInt(score_prefs.getString("score", "0"));
+                    SharedPreferences scorePrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    int score = Integer.parseInt(scorePrefs.getString("score", "0"));
                     score++;
                     String saveScore = Integer.toString(score);
-                    SharedPreferences.Editor settings_editor = score_prefs.edit();
+                    SharedPreferences.Editor settings_editor = scorePrefs.edit();
                     settings_editor.putString("score", saveScore).commit();
                     updateMessage();
                     break;
@@ -174,29 +186,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //
-        getMenuInflater().inflate(R.menu.settingsmenu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settings:
-                Intent optionsMenuIntent = new Intent(this, Settings.class);
-                startActivity(optionsMenuIntent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     //get intent and change activities to main menu
     public void openActivityMainMenu() {
-        Intent mainMenuIntent = new Intent(this, MainMenu.class);
+        Intent mainMenuIntent = new Intent(this, Settings.class);
         startActivity(mainMenuIntent);
     }
 

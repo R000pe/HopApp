@@ -13,15 +13,13 @@ public class Pre_Poll extends AppCompatActivity {
     private EditText TextName, TextAge;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre__poll);
-
-
     }
 
+    //Ad User information to Settings
     protected void onPause() {
         super.onPause();
         SharedPreferences settings_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());

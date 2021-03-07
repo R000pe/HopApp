@@ -3,8 +3,11 @@ package com.example.hopapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.hopapp.lists.anxietyList;
 import com.example.hopapp.lists.challengesList;
@@ -17,6 +20,7 @@ public class CategoryPage extends AppCompatActivity {
     public Button improvementsButton;
     public Button anxietyButton;
     public Button challengesButton;
+    private Button rewardButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +29,18 @@ public class CategoryPage extends AppCompatActivity {
         assignButtons();
     }
 
-    private void assignButtons(){
+    private void assignButtons() {
         exerciseButton = findViewById(R.id.buttonExercise);
         improvementsButton = findViewById(R.id.buttonImprovements);
         anxietyButton = findViewById(R.id.buttonAnxiety);
         challengesButton = findViewById(R.id.buttonChallenges);
+        rewardButton = findViewById(R.id.buttonReward);
 
         exerciseButton.setOnClickListener(v -> openExercisePage());
         improvementsButton.setOnClickListener(v -> openImprovementsPage());
         anxietyButton.setOnClickListener(v -> openAnxietyPage());
         challengesButton.setOnClickListener(v -> openChallengesPage());
+        rewardButton.setOnClickListener(v -> claimReward());
 
     }
 
@@ -56,5 +62,11 @@ public class CategoryPage extends AppCompatActivity {
     public void openChallengesPage() {
         Intent challengeIntent = new Intent(this, challengesList.class);
         startActivity(challengeIntent);
+    }
+
+    public void claimReward() {
+        Intent rewardIntent = new Intent(this, Reward.class);
+        startActivity(rewardIntent);
+
     }
 }

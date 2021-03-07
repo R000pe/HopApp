@@ -22,16 +22,15 @@ public class SelectedRoutinesSingleton {
     Context context;
 
 
-
-        public static SelectedRoutinesSingleton getInstance(){
-        if(ourInstance == null){
+    public static SelectedRoutinesSingleton getInstance() {
+        if (ourInstance == null) {
             ourInstance = new SelectedRoutinesSingleton();
             // create an instance only if there is no previous instance
         }
         return ourInstance;
     }
 
-    private SelectedRoutinesSingleton(){ //constructor
+    private SelectedRoutinesSingleton() { //constructor
         selectedRoutines = new ArrayList<Routine>();
     }
 

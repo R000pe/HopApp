@@ -44,4 +44,14 @@
             android:title="Age" />
 
     </PreferenceCategory>
+    <PreferenceCategory android:title="App Settings">
+
+
+
+    </PreferenceCategory>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notification_mute"
+        android:summary="Mute notifications"
+        android:title="Notification Sound" />
 </PreferenceScreen>
