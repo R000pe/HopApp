@@ -35,7 +35,6 @@ public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.
             mImageView = itemView.findViewById(R.id.routineImageView);
             mTextView1 = itemView.findViewById(R.id.routine_title);
             mTextView2 = itemView.findViewById(R.id.routine_desc);
-            mAddRoutine = itemView.findViewById(R.id.imageAdd);
             this.onClickListener = onClickListener;
 
             itemView.setOnClickListener(this);

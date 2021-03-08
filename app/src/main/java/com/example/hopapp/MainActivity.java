@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public ImageButton taskButton;
     public ImageButton calendarButton;
     public Button buttonSave;
+    SwipeRefreshLayout swipeRefreshLayout;
     List<String> archivedRoutines = new ArrayList<>();
 
 
@@ -98,10 +100,20 @@ public class MainActivity extends AppCompatActivity {
         } else {
             amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0);
         }
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                myAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
     }
 
     private void adapterMethod() {
-        myAdapter = new RecyclerViewAdapter((ArrayList<Routine>) s.getSelectedRoutines()); //täällä luki routineList
+        myAdapter = new RecyclerViewAdapter(this, (ArrayList<Routine>) s.getSelectedRoutines()); //täällä luki routineList
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

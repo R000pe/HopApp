@@ -30,11 +30,11 @@ public class exerciseList extends AppCompatActivity implements RoutinePageAdapte
         recyclerViewAll = findViewById(R.id.exerciseRecycleView);
 
         //this is the list
-        routineList.add( new Routine(R.drawable.default_logo,"Stretch", "Stretch for 10 minutes"));
-        routineList.add(new Routine(R.drawable.default_logo,"Go for a run", "Run for 10 minutes"));
-        routineList.add(new Routine(R.drawable.default_logo,"Pushups", "Do 20 pushups"));
-        routineList.add(new Routine(R.drawable.default_logo,"Walk in a park", "Go for a walk in the middle of nature"));
-        routineList.add(new Routine(R.drawable.default_logo,"Fish like trish", "Go for a swim"));
+        routineList.add( new Routine(R.drawable.rabbit_stretch,"Stretch", "Stretch for 10 minutes"));
+        routineList.add(new Routine(R.drawable.z_routine_run,"Go for a run", "Run for 10 minutes"));
+        routineList.add(new Routine(R.drawable.z_routine_pushup,"Pushups", "Do 20 pushups"));
+        routineList.add(new Routine(R.drawable.z_routine_walk,"Walk in a park", "Go for a walk in the middle of nature"));
+        routineList.add(new Routine(R.drawable.z_routine_swim,"Fish like trish", "Go for a swim"));
 
         //new adapter for recycle view
         RoutinePageAdapter reeAdapter = new RoutinePageAdapter(routineList, this);

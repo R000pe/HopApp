@@ -37,14 +37,14 @@ public class improvementsList extends AppCompatActivity implements RoutinePageAd
         recyclerViewAll = findViewById(R.id.improvementsRecycleView);
 
         //this is the list
-        routineList.add( new Routine(R.drawable.default_logo,"Hydrohomie", "Drink a glass of water every 2 hours"));
-        routineList.add(new Routine(R.drawable.default_logo,"To-Do list", "Write your to-do list for the day"));
-        routineList.add(new Routine(R.drawable.default_logo,"Bedtime", "Go to sleep at 10"));
-        routineList.add(new Routine(R.drawable.default_logo,"Master Chef", "Make dinner"));
-        routineList.add(new Routine(R.drawable.default_logo,"Viscera's cleanup crew", "Tidy up your room/house"));
-        routineList.add(new Routine(R.drawable.default_logo,"Intelligence +1", "Study for 2 hours"));
-        routineList.add(new Routine(R.drawable.default_logo,"Bookworm", "Read a chapter of a book"));
-        routineList.add(new Routine(R.drawable.default_logo,"Bob Ross", "Do something creative"));
+        routineList.add( new Routine(R.drawable.z_routine_water,"Hydrohomie", "Drink a glass of water every 2 hours"));
+        routineList.add(new Routine(R.drawable.z_routine_todo,"To-Do list", "Write your to-do list for the day"));
+        routineList.add(new Routine(R.drawable.z_routine_bedtime,"Bedtime", "Go to sleep at 10"));
+        routineList.add(new Routine(R.drawable.z_routine_cooking,"Master Chef", "Make dinner"));
+        routineList.add(new Routine(R.drawable.z_routine_cleaning,"Viscera's cleanup crew", "Tidy up your room/house"));
+        routineList.add(new Routine(R.drawable.z_routine_study,"Intelligence +1", "Study for 2 hours"));
+        routineList.add(new Routine(R.drawable.z_routine_read,"Bookworm", "Read a chapter of a book"));
+        routineList.add(new Routine(R.drawable.z_routine_create,"Bob Ross", "Do something creative"));
 
         //new adapter for recycle view
         RoutinePageAdapter reeAdapter = new RoutinePageAdapter(routineList, this);
