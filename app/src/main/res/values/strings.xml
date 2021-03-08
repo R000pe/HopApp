@@ -7,6 +7,8 @@
     <string name="default_gallery_storage">score_String</string>
     <string name="Score">score</string>
     <string name="buttonInCalendarView">show schedule</string>
+    <string name="routineselectiontitle">set time and date for this routine</string>
+    <string name="routineselectionbutton">save</string>
 
     <string-array name="routines">
         <item>Read</item>

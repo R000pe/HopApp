@@ -76,7 +76,6 @@ public class Calendar extends AppCompatActivity {
 
                 Toast.makeText(Calendar.this,
                         "" + day + ". " + m + " " + year, 0).show();   // toast shows the selected date
-                // MIKS TOI 0 BUGAA VÄLILLÄ????
                 // toastiin myöhemmin aktiviteetin ja aktiviteetin ajankohta
                 // jos näyttää liian rumalta niin laitan popup-ikkunan (koodi valmis)
             }
