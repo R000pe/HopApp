@@ -26,14 +26,6 @@ ListView lv;
                 android.R.layout.simple_list_item_1,
                 SelectedRoutinesSingleton.getInstance().getSelectedRoutines()));
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(Schedule.this, AlarmSetting.class);
-                intent.putExtra("EXTRA_POSITION", position);
-                startActivity(intent);
-            }   // view = adapterissa painettu view, position = viewn sijainti, id = rivin id
-        });
     }
 
 }

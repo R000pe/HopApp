@@ -22,7 +22,6 @@
         <activity android:name=".Settings" />
         <activity android:name=".Calendar" />
         <activity android:name=".Schedule"/>
-        <activity android:name=".AlarmSetting" />
         <activity
             android:name=".TaskViewActivity"
             android:label="Details"
