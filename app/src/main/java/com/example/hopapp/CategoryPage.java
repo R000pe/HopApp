@@ -33,8 +33,8 @@ public class CategoryPage extends AppCompatActivity {
     private void assignButtons() {
         exerciseButton = findViewById(R.id.buttonExercise);
         improvementsButton = findViewById(R.id.buttonImprovements);
-        anxietyButton = findViewById(R.id.buttonCustomC);
-        challengesButton = findViewById(R.id.buttonAnxiety);
+        anxietyButton = findViewById(R.id.buttonAnxiety);
+        challengesButton = findViewById(R.id.buttonChallenge);
         rewardButton = findViewById(R.id.buttonReward);
         suggestButton = findViewById(R.id.buttonCustomC);
 
