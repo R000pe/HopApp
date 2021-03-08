@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class Calendar extends AppCompatActivity {
@@ -18,14 +20,18 @@ public class Calendar extends AppCompatActivity {
 
     String m;   // used later as month's string value
     Button b;   // button
+    ImageButton backB;
     CalendarView cv;    // calendarview
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
         //hide the bar above this activity
         getSupportActionBar().hide();
-        b = findViewById(R.id.dateselectionBtn);
+
+        b = findViewById(R.id.scheduleBtn);
+        backB = findViewById(R.id.rabbitBackBtn);
         cv = findViewById(R.id.calendarView);
         cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -77,13 +83,26 @@ public class Calendar extends AppCompatActivity {
                 }
 
                 Toast.makeText(Calendar.this,
-                        "" + day + ". " + m + " " + year, 0).show();   // toast shows the selected date
+                        "" + day + ". " + m + " " + year, Toast.LENGTH_SHORT).show();   // toast shows the selected date
                 // MIKS TOI 0 BUGAA VÄLILLÄ????
                 // toastiin myöhemmin aktiviteetin ja aktiviteetin ajankohta
                 // jos näyttää liian rumalta niin laitan popup-ikkunan (koodi valmis)
             }
         });
+
     }
+
+    public void openSchedule(View view){
+        Intent intent = new Intent(this, Schedule.class);
+        startActivity(intent);
+    }
+
+    public void backToMain(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+
 /*
     public void dateSelection(View v){
         // calling for java's in-built calendar

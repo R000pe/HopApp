@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.example.hopapp.MainActivity;
 import com.example.hopapp.PreConfig;
@@ -23,6 +28,34 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
     private RecyclerView recyclerViewAll;
     ArrayList<Routine> routineList = new ArrayList<>();
     public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
+    //sanna
+    private int year, month, day, routinePosition; // these will be later used in datepickerdialog
+    private DatePickerDialog datePicker;
+    private Intent intent;
+
+    private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+
+            routineList.get(routinePosition).setYear(year);    // setting the date into the routine
+            routineList.get(routinePosition).setMonth(month);
+            routineList.get(routinePosition).setDayOfMonth(day);
+
+            System.out.println(routineList.get(routinePosition).getDateFull());
+
+            System.out.println(routineList.get(routinePosition));
+
+            intent.putExtra("YEAR", routineList.get(routinePosition).getYear());
+            intent.putExtra("MONTH", routineList.get(routinePosition).getMonth());
+            intent.putExtra("DAY", routineList.get(routinePosition).getDayOfMonth());
+
+            Toast.makeText(anxietyList.this, "Routine added to the list!", Toast.LENGTH_SHORT).show();
+
+            startActivity(intent);
+        }
+    }; // listener used to indicate the user has finished selecting a date (SANNA)
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +86,7 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
         //make new intent for mainclass
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
         mediaPlayer.start();
-        Intent intent = new Intent(this, TaskViewActivity.class);
+        intent = new Intent(this, TaskViewActivity.class); // intent declared earlier (sanna)
         //get the position of the clicked item (index), and then get the title, desc and image of it
         intent.putExtra("title", routineList.get(position).getTitle());
         intent.putExtra("desc", routineList.get(position).getDesc());
@@ -65,11 +98,16 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
     }
 
     @Override
-    public void onAddClick(int position) {
+    public void onAddClick(int position) {  // this method adds the routine
+
+        routinePosition = position;
+
+        System.out.println("onAddClick");
+
         //make new intent for mainclass
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
         mediaPlayer.start();
-        Intent intent = new Intent(this, MainActivity.class);
+        intent = new Intent(this, MainActivity.class);
         //get the position of the clicked item (index), and then get the title, desc and image of it
         intent.putExtra("title", routineList.get(position).getTitle());
         intent.putExtra("desc", routineList.get(position).getDesc());
@@ -78,7 +116,19 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
         main.addRoutineToList();
         PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
 
-        //start main activity. only for test purposes, to be removed later
-        startActivity(intent);
+        // sanna
+        // calling for java's in-built calendar's current values
+        year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+        month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
+        day = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePicker = new DatePickerDialog(
+                this,
+                android.R.style.Theme_Material_Dialog_MinWidth,
+                dateSet,
+                year, month, day); // datePicker asks for contexts, layout/theme, ondatesetlistener & values
+
+        datePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY)); // a pop-up window
+        datePicker.show();
     }
 }
