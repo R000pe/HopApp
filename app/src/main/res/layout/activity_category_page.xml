@@ -20,26 +20,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonExercise"
             android:layout_width="176dp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
-            android:background="#ffffff"
+            android:background="#c6d9e0"
             android:text="Exercise"
             android:textSize="18sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonImprovements"
+            android:layout_width="181dp"
+            android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
-            android:background="#ffffff"
+            android:background="#dce3d5"
             android:text="Improvements"
             android:textSize="18sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -48,30 +50,30 @@
             android:text="Button"
             android:textSize="18sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonChallenges"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
-            android:background="#ffffff"
+            android:background="#cec6da"
             android:text="Challenges"
             android:textSize="18sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonAnxiety"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
-            android:background="#ffffff"
+            android:background="#e8e1df"
             android:text="Anxiety"
             android:textSize="18sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonReward"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
-            android:background="#ffffff"
+            android:background="#ffd46b"
             android:text="Reward"
             android:textSize="18sp" />
 

@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.widget.TextView;
 
+
 public class HomeActivity extends AppCompatActivity {
     private TextView err;
 
@@ -17,6 +18,19 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //If first time opening the app
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if (isFirstRun) {
+            //Open pre poll information page
+            Intent Pre_PollIntent = new Intent(HomeActivity.this, Pre_Poll.class);
+            startActivity(Pre_PollIntent);
+        }
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).apply();
+
         getSupportActionBar().hide();
 
         setName();

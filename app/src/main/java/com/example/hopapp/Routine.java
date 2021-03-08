@@ -14,11 +14,11 @@ public class Routine {
     public int getmImageResource(){
         return mImageResource;
     }
-    public String getText1(){
+    public String getTitle(){
         return mText1;
     }
 
-    public String getText2(){
+    public String getDesc(){
         return mText2;
     }
 

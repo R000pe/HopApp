@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.example.hopapp.MainActivity;
@@ -13,6 +14,7 @@ import com.example.hopapp.R;
 import com.example.hopapp.Routine;
 import com.example.hopapp.RoutinePageAdapter;
 import com.example.hopapp.SelectedRoutinesSingleton;
+import com.example.hopapp.TaskViewActivity;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,8 @@ public class improvementsList extends AppCompatActivity implements RoutinePageAd
         super.onCreate(savedInstanceState);
         //we're using the main page activity
         setContentView(R.layout.activity_improvements_list);
+        //hide the bar above this activity
+        getSupportActionBar().hide();
 
         //set the recycle view into a parameter
         recyclerViewAll = findViewById(R.id.improvementsRecycleView);
@@ -56,10 +60,28 @@ public class improvementsList extends AppCompatActivity implements RoutinePageAd
     @Override
     public void onClick(int position) {
         //make new intent for mainclass
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, TaskViewActivity.class);
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+        mediaPlayer.start();
         //get the position of the clicked item (index), and then get the title, desc and image of it
-        intent.putExtra("title", routineList.get(position).getText1());
-        intent.putExtra("desc", routineList.get(position).getText2());
+        intent.putExtra("title", routineList.get(position).getTitle());
+        intent.putExtra("desc", routineList.get(position).getDesc());
+        intent.putExtra("image", routineList.get(position).getmImageResource());
+        //do the add to list method in main (it fetches the last intent)
+
+        //start main activity. only for test purposes, to be removed later
+        startActivity(intent);
+    }
+
+    @Override
+    public void onAddClick(int position) {
+        //make new intent for mainclass
+        Intent intent = new Intent(this, MainActivity.class);
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+        mediaPlayer.start();
+        //get the position of the clicked item (index), and then get the title, desc and image of it
+        intent.putExtra("title", routineList.get(position).getTitle());
+        intent.putExtra("desc", routineList.get(position).getDesc());
         intent.putExtra("image", routineList.get(position).getmImageResource());
         //do the add to list method in main (it fetches the last intent)
         main.addRoutineToList();
@@ -67,7 +89,5 @@ public class improvementsList extends AppCompatActivity implements RoutinePageAd
 
         //start main activity. only for test purposes, to be removed later
         startActivity(intent);
-
-
     }
 }

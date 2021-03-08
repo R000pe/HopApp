@@ -16,41 +16,31 @@ public class TaskViewActivity extends AppCompatActivity {
     ImageView detailImageView;
     TextView detailTitleTextView, detailDescTextView;
 
-    String data1, data2;
-    int myImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_view);
 
-        //set parameters
-        detailImageView = findViewById(R.id.detailImageView);
         detailTitleTextView = findViewById(R.id.detailTitleTextView);
         detailDescTextView = findViewById(R.id.detailDescTextView);
+        detailImageView = findViewById(R.id.detailImageView);
 
-        //call functions to get data and then set it
-        getData();
-        setData();
-    }
+        String title = "Title not set";
+        String desc = "Desc not set";
+        int image = -1;
 
-    private void getData() {
-        //if intent has extra with the specific name, set it into parameters
-        if (getIntent().hasExtra("myImage") && getIntent().hasExtra("data1") && getIntent().hasExtra("data2")) {
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            title = extras.getString("title");
+            desc = extras.getString("desc");
+            image = extras.getInt("image");
 
-            data1 = getIntent().getStringExtra("data1");
-            data2 = getIntent().getStringExtra("data2");
-            myImage = getIntent().getIntExtra("myImage", 1);
-        } else {
-            //if data isn't found for some reason, give an error
-            Toast.makeText(this, "No Data.", Toast.LENGTH_SHORT).show();
         }
-    }
 
-    //set the data that we got from intent
-    private void setData() {
-        detailTitleTextView.setText(data1);
-        detailDescTextView.setText(data2);
-        detailImageView.setImageResource(myImage);
+        detailTitleTextView.setText(title);
+        detailDescTextView.setText(desc);
+        detailImageView.setImageResource(image);
+
     }
 }

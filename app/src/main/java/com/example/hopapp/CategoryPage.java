@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,8 @@ public class CategoryPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_page);
+        //hide the bar above this activity
+        getSupportActionBar().hide();
         assignButtons();
     }
 
@@ -36,11 +39,27 @@ public class CategoryPage extends AppCompatActivity {
         challengesButton = findViewById(R.id.buttonChallenges);
         rewardButton = findViewById(R.id.buttonReward);
 
-        exerciseButton.setOnClickListener(v -> openExercisePage());
-        improvementsButton.setOnClickListener(v -> openImprovementsPage());
-        anxietyButton.setOnClickListener(v -> openAnxietyPage());
-        challengesButton.setOnClickListener(v -> openChallengesPage());
-        rewardButton.setOnClickListener(v -> claimReward());
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+        exerciseButton.setOnClickListener(v -> {
+            mediaPlayer.start();
+            openExercisePage();
+        });
+        improvementsButton.setOnClickListener(v -> {
+            mediaPlayer.start();
+            openImprovementsPage();
+        });
+        anxietyButton.setOnClickListener(v -> {
+            mediaPlayer.start();
+            openAnxietyPage();
+        });
+        challengesButton.setOnClickListener(v -> {
+            mediaPlayer.start();
+            openChallengesPage();
+        });
+        rewardButton.setOnClickListener(v -> {
+            mediaPlayer.start();
+            claimReward();
+        });
 
     }
 

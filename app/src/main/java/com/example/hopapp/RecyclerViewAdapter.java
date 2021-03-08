@@ -30,16 +30,17 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private ArrayList<Routine> mRoutineList;
-    private RecyclerViewClickInterface recyclerViewClickInterface;
+    private RecyclerViewClickListener listener;
     Context mcontext;
 
 
-    public RecyclerViewAdapter(Context mcontext, ArrayList<Routine> routineList){
+    public RecyclerViewAdapter(Context mcontext, ArrayList<Routine> routineList, RecyclerViewClickListener listener){
         this.mcontext = mcontext;
         mRoutineList = routineList;
+        this.listener = listener;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
@@ -53,12 +54,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             container = itemView.findViewById(R.id.container);
             mImageView = itemView.findViewById(R.id.routineImageView);
             mTextView1 = itemView.findViewById(R.id.routine_title);
-            mTextView2 = itemView.findViewById(R.id.routine_desc);
+            //mTextView2 = itemView.findViewById(R.id.routine_desc);
             //this is the plus sign, needs to be removed later from this adapter
+            itemView.setOnClickListener(this);
 
             //itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            listener.onClick(itemView, getAdapterPosition());
+        }
     }
 
 
@@ -77,13 +83,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Routine currentRoutine = mRoutineList.get(position);
         holder.mImageView.setImageResource(currentRoutine.getmImageResource());
-        holder.mTextView1.setText(currentRoutine.getText1());
-        holder.mTextView2.setText(currentRoutine.getText2());
+        holder.mTextView1.setText(currentRoutine.getTitle());
+        //holder.mTextView2.setText(currentRoutine.getDesc());
     }
 
     //makes the right size list
     public int getItemCount() {
         return mRoutineList.size();
+    }
+
+    public interface RecyclerViewClickListener{
+        void onClick(View v, int position);
     }
 
 }

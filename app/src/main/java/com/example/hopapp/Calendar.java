@@ -23,6 +23,8 @@ public class Calendar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        //hide the bar above this activity
+        getSupportActionBar().hide();
         b = findViewById(R.id.dateselectionBtn);
         cv = findViewById(R.id.calendarView);
         cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

@@ -8,16 +8,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -37,26 +42,27 @@ public class MainActivity extends AppCompatActivity {
     public RecyclerView recyclerView;
     RecyclerViewAdapter myAdapter;
     public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
+    private RecyclerViewAdapter.RecyclerViewClickListener listener;
 
     //make buttons
     public ImageButton mainMenuButton;
     public ImageButton taskButton;
     public ImageButton calendarButton;
-    public Button buttonSave;
     SwipeRefreshLayout swipeRefreshLayout;
-    List<String> archivedRoutines = new ArrayList<>();
 
 
     Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         popupMessage();
         //remembers the last instance state
         super.onCreate(savedInstanceState);
         //we're using the main page activity
         setContentView(R.layout.activity_main);
-
+        //hide the bar above this activity
+        getSupportActionBar().hide();
         //set the recycle view into a parameter
         recyclerView = findViewById(R.id.recyclerView);
         //s.getSelectedRoutines() = PreConfig.readListFromPref(this);
@@ -77,17 +83,6 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        //If first time opening the app
-        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                .getBoolean("isFirstRun", true);
-
-        if (isFirstRun) {
-            //Open pre poll information page
-            Intent Pre_PollIntent = new Intent(MainActivity.this, Pre_Poll.class);
-            startActivity(Pre_PollIntent);
-        }
-        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                .putBoolean("isFirstRun", false).apply();
 
         PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
 
@@ -113,9 +108,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void adapterMethod() {
-        myAdapter = new RecyclerViewAdapter(this, (ArrayList<Routine>) s.getSelectedRoutines()); //täällä luki routineList
+        setOnClickListener();
+        myAdapter = new RecyclerViewAdapter(this, (ArrayList<Routine>) s.getSelectedRoutines(), listener); //täällä luki routineList
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+    private void setOnClickListener() {
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+        listener = new RecyclerViewAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                mediaPlayer.start();
+                Intent intent = new Intent(getApplicationContext(), TaskViewActivity.class);
+                intent.putExtra("title", s.selectedRoutines.get(position).getTitle());
+                intent.putExtra("desc", s.selectedRoutines.get(position).getDesc());
+                intent.putExtra("image", s.selectedRoutines.get(position).getmImageResource());
+                startActivity(intent);
+            }
+        };
     }
 
     private void updateMessage() {
@@ -128,13 +138,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void assignButtons() {
+
+
         mainMenuButton = findViewById(R.id.mainMenuButton);
         taskButton = findViewById(R.id.taskButton);
         calendarButton = findViewById(R.id.calendarButton);
 
-        mainMenuButton.setOnClickListener(v -> openActivityMainMenu());
-        taskButton.setOnClickListener(v -> openCategoryPage());
-        calendarButton.setOnClickListener(v -> openCalendar());
+        //assign the click sound on the buttons
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+        mainMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.start();
+                openActivityMainMenu();
+            }
+        });
+        calendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.start();
+                openCalendar();
+            }
+        });
+        taskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.start();
+                openCategoryPage();
+            }
+        });
+
+
+
 
     }
 
@@ -246,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 //after current while loop object r wont have a reference & will be deleted by garbage collector
 
                 for (int i = 0; i < s.getSelectedRoutines().size(); i++) { // a for loop through singleton's selectedroutines-list
-                    if (s.getSelectedRoutines().get(i).getText1().equals(r.getText1())) { // once a similar object is found ..
+                    if (s.getSelectedRoutines().get(i).getTitle().equals(r.getTitle())) { // once a similar object is found ..
                         y = 2;
                         break; // .. for loop will be abrupted
                     }
@@ -279,4 +314,5 @@ public class MainActivity extends AppCompatActivity {
         String name = name_pref.getString("full_name", "");
         Toast.makeText(MainActivity.this, "Hello " + name, Toast.LENGTH_SHORT).show();
     }
+
 }

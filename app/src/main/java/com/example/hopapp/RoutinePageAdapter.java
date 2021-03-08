@@ -29,16 +29,32 @@ public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.
         public TextView mTextView2;
         public ImageView mAddRoutine;
         OnClickListener onClickListener;
+        public ImageView mAddImage;
 
         public MyViewHolder(View itemView, OnClickListener onClickListener) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.routineImageView);
-            mTextView1 = itemView.findViewById(R.id.routine_title);
-            mTextView2 = itemView.findViewById(R.id.routine_desc);
+            mImageView = itemView.findViewById(R.id.routineImageView_plus);
+            mTextView1 = itemView.findViewById(R.id.routine_title_plus);
+            //mTextView2 = itemView.findViewById(R.id.routine_desc);
             this.onClickListener = onClickListener;
+            mAddImage = itemView.findViewById(R.id.image_add);
 
             itemView.setOnClickListener(this);
+
+            mAddImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onAddClick(position);
+                        }
+                    }
+                }
+            });
         }
+
+
 
         @Override
         public void onClick(View v) {
@@ -50,7 +66,7 @@ public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_row, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_row_with_plus, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(v, listener);
         return myViewHolder;
 
@@ -61,8 +77,8 @@ public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.
         Routine currentRoutine = mRoutineList.get(position);
 
         holder.mImageView.setImageResource(currentRoutine.getmImageResource());
-        holder.mTextView1.setText(currentRoutine.getText1());
-        holder.mTextView2.setText(currentRoutine.getText2());
+        holder.mTextView1.setText(currentRoutine.getTitle());
+        //holder.mTextView2.setText(currentRoutine.getDesc());
     }
 
     @Override
@@ -73,6 +89,7 @@ public class RoutinePageAdapter extends RecyclerView.Adapter<RoutinePageAdapter.
     //make a onclicklistener
     public interface OnClickListener {
         void onClick(int position);
+        void onAddClick(int position);
     }
 
 
