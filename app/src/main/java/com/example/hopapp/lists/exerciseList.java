@@ -20,6 +20,7 @@ import com.example.hopapp.Routine;
 import com.example.hopapp.RoutinePageAdapter;
 import com.example.hopapp.SelectedRoutinesSingleton;
 import com.example.hopapp.TaskViewActivity;
+import com.example.hopapp.customList;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class exerciseList extends AppCompatActivity implements RoutinePageAdapte
     private RecyclerView recyclerViewAll;
     ArrayList<Routine> routineList = new ArrayList<>();
     public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
+    customList suggest = new customList();
 
     //sanna
     private int year, month, day, routinePosition; // these will be later used in datepickerdialog
@@ -74,6 +76,7 @@ public class exerciseList extends AppCompatActivity implements RoutinePageAdapte
         routineList.add(new Routine(R.drawable.z_routine_pushup,"Pushups", "Do 20 pushups"));
         routineList.add(new Routine(R.drawable.z_routine_walk,"Walk in a park", "Go for a walk in the middle of nature"));
         routineList.add(new Routine(R.drawable.z_routine_swim,"Fish like trish", "Go for a swim"));
+
 
         //new adapter for recycle view
         RoutinePageAdapter reeAdapter = new RoutinePageAdapter(routineList, this);

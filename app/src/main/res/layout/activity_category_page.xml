@@ -42,20 +42,11 @@
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="5sp"
-            android:background="#ffffff"
-            android:text="Button"
-            android:textSize="18sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonChallenges"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
-            android:background="#cec6da"
+            android:background="#ffd2cc"
             android:text="Challenges"
             android:textSize="18sp" />
 
@@ -64,8 +55,17 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
-            android:background="#e8e1df"
+            android:background="#cec6da"
             android:text="Anxiety"
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonCustomC"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:background="#e8e1df"
+            android:text="Custom"
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatButton

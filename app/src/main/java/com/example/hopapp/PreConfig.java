@@ -14,6 +14,8 @@ import java.util.List;
 public class PreConfig {
 
     private static final String LIST_KEY = "list_key";
+    private static final String LIST_KEY2 = "list_key";
+
 
     public static void writeListInPref(Context context, List<Routine> list){
         Gson gson = new Gson();

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
     private TextView err;
+    boolean isFirstRun;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,31 +22,35 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         //If first time opening the app
-        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+        isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
             //Open pre poll information page
             Intent Pre_PollIntent = new Intent(HomeActivity.this, Pre_Poll.class);
             startActivity(Pre_PollIntent);
+
         }
-        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                .putBoolean("isFirstRun", false).apply();
+
+
 
         getSupportActionBar().hide();
 
         setName();
 
         Handler handler =new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(HomeActivity.this, MainActivity.class));
-                finish();
-            }
-        }, 30);
+        if (!isFirstRun) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                    finish();
+                }
+            }, 30);
+        }
         //later should be put to 4000 (4s)
     }
+
 
     @SuppressLint("SetTextI18n")
     private void setName (){

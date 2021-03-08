@@ -3,12 +3,9 @@ package com.example.hopapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.example.hopapp.lists.anxietyList;
 import com.example.hopapp.lists.challengesList;
@@ -22,6 +19,7 @@ public class CategoryPage extends AppCompatActivity {
     public Button anxietyButton;
     public Button challengesButton;
     private Button rewardButton;
+    private Button suggestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +33,10 @@ public class CategoryPage extends AppCompatActivity {
     private void assignButtons() {
         exerciseButton = findViewById(R.id.buttonExercise);
         improvementsButton = findViewById(R.id.buttonImprovements);
-        anxietyButton = findViewById(R.id.buttonAnxiety);
-        challengesButton = findViewById(R.id.buttonChallenges);
+        anxietyButton = findViewById(R.id.buttonCustomC);
+        challengesButton = findViewById(R.id.buttonAnxiety);
         rewardButton = findViewById(R.id.buttonReward);
+        suggestButton = findViewById(R.id.buttonCustomC);
 
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
         exerciseButton.setOnClickListener(v -> {
@@ -59,6 +58,10 @@ public class CategoryPage extends AppCompatActivity {
         rewardButton.setOnClickListener(v -> {
             mediaPlayer.start();
             claimReward();
+        });
+        suggestButton.setOnClickListener(v -> {
+            mediaPlayer.start();
+            openSuggestedPage();
         });
 
     }
@@ -86,6 +89,12 @@ public class CategoryPage extends AppCompatActivity {
     public void claimReward() {
         Intent rewardIntent = new Intent(this, Reward.class);
         startActivity(rewardIntent);
+
+    }
+
+    public void openSuggestedPage() {
+        Intent suggestIntent = new Intent(this, customList.class);
+        startActivity(suggestIntent);
 
     }
 }

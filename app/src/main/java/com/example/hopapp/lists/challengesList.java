@@ -19,6 +19,7 @@ import com.example.hopapp.R;
 import com.example.hopapp.Routine;
 import com.example.hopapp.RoutinePageAdapter;
 import com.example.hopapp.SelectedRoutinesSingleton;
+import com.example.hopapp.TaskViewActivity;
 
 import java.util.ArrayList;
 
@@ -82,14 +83,12 @@ public class challengesList extends AppCompatActivity implements RoutinePageAdap
         //make new intent for mainclass
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
         mediaPlayer.start();
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, TaskViewActivity.class);
         //get the position of the clicked item (index), and then get the title, desc and image of it
         intent.putExtra("title", routineList.get(position).getTitle());
         intent.putExtra("desc", routineList.get(position).getDesc());
         intent.putExtra("image", routineList.get(position).getmImageResource());
         //do the add to list method in main (it fetches the last intent)
-        main.addRoutineToList();
-        PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
 
         //start main activity. only for test purposes, to be removed later
         startActivity(intent);
