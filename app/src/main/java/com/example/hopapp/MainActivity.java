@@ -267,12 +267,16 @@ public class MainActivity extends AppCompatActivity {
             String desc;
             int image;
             int index;
+            int year, month, day;
 
             //get intent and assign them to parameters
             title = extras.getString("title");
             desc = extras.getString("desc");
             image = extras.getInt("image");
             index = extras.getInt("index");
+            year = extras.getInt("YEAR");
+            month = extras.getInt("MONTH");
+            day = extras.getInt("DAY");
 
             int y = 0;
 
@@ -297,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
             if (y == 1) { // if y = 1 after previous while loop ..
                 //add to the main page list
                 //s.getSelectedRoutines().add(index, new Routine(image, title, desc)); // .. the object will be added to the list
-                s.getInstance().getSelectedRoutines().add(new Routine(image, title, desc));
+                s.getInstance().getSelectedRoutines().add(new Routine(image, title, desc, year, month, day));
                 PreConfig.writeListInPref(getApplicationContext(), s.getSelectedRoutines());
             }
 

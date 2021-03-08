@@ -18,18 +18,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/dateselectionBtn"
+        android:id="@+id/scheduleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#e5d7c3"
         android:text="@string/buttonInCalendarView"
         android:textAllCaps="true"
         android:textColor="@color/black"
+        android:onClick="openSchedule"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+
+    <ImageButton
+        android:id="@+id/rabbitBackBtn"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:onClick="backToMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/routine_icon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
