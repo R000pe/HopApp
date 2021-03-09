@@ -26,7 +26,10 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author sanku
+ * @version 1.1 03/2021
+ * */
 public class customList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
     MainActivity main = new MainActivity();
     private RecyclerView recyclerViewAll;

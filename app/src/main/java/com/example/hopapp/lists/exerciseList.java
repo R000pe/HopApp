@@ -23,7 +23,10 @@ import com.example.hopapp.TaskViewActivity;
 import com.example.hopapp.customList;
 
 import java.util.ArrayList;
-
+/**
+ * @author sanku
+ * @version 1.1 03/2021
+ * */
 public class exerciseList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
     MainActivity main = new MainActivity();
     private RecyclerView recyclerViewAll;
