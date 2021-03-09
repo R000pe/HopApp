@@ -23,7 +23,8 @@ import com.example.hopapp.TaskViewActivity;
 
 import java.util.ArrayList;
 /**
- * Luo anxiety luokan lista ja siihen liittyvät methodit
+ * Luo anxiety luokan lista ja siihen liittyvät methodit.
+ * Listan aktiviteeteille asetetaan pvm
  * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  * */
@@ -36,20 +37,19 @@ public class challengesList extends AppCompatActivity implements RoutinePageAdap
     private int year, month, day, routinePosition; // these will be later used in datepickerdialog
     private DatePickerDialog datePicker;
     private Intent intent;
-
+    /**
+     * DatePickerDialogin OnDateSetListenerin avulla kayttaja valitsee aktiviteetilleen toivomansa pvm:n
+     * tupsahtaneen kalenterinakyman avulla. Arvot lisataan aktiviteetille.
+     * */
     private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
-            routineList.get(routinePosition).setYear(year);    // setting the date into the routine
+            routineList.get(routinePosition).setYear(year);    // paivamaaran arvot lisätään rutiiniin
             routineList.get(routinePosition).setMonth(month);
             routineList.get(routinePosition).setDayOfMonth(day);
 
-            System.out.println(routineList.get(routinePosition).getDateFull());
-
-            System.out.println(routineList.get(routinePosition));
-
-            intent.putExtra("YEAR", routineList.get(routinePosition).getYear());
+            intent.putExtra("YEAR", routineList.get(routinePosition).getYear());    // arvot lähetetään eteenpäin (mainactivityyn)
             intent.putExtra("MONTH", routineList.get(routinePosition).getMonth());
             intent.putExtra("DAY", routineList.get(routinePosition).getDayOfMonth());
 
@@ -105,7 +105,8 @@ public class challengesList extends AppCompatActivity implements RoutinePageAdap
 
     /**
      * Uusi intent Main Activitylle, joka lisää intentin avulla extroihin parametrit
-     * ja addToRoutineList methodin kautta lisää ne etusivun listalle
+     * ja addToRoutineList methodin kautta lisää ne etusivun listalle.
+     * aktiviteetille valitaan pvm
      * @param position hakee onclick:in alaisena olevan kortin indeksin
      */
     @Override

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 /**
  *
  * Luo anxiety luokan lista ja siihen liittyvät methodit
+ * Listan aktiviteeteille asetetaan pvm
  * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  * */
