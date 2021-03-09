@@ -43,7 +43,9 @@ public class Calendar extends AppCompatActivity {
         backB = findViewById(R.id.rabbitBackBtn);
         cv = findViewById(R.id.calendarView);
         cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-
+            /**
+             * Metodin avulla paikannetaan kayttajan valitsema pvm CalendarWidgetissa. Pvm tulostuu toastilla
+             * */
             @SuppressLint("WrongConstant")
             @Override
             public void onSelectedDayChange(
@@ -51,10 +53,6 @@ public class Calendar extends AppCompatActivity {
                     int year,
                     int month,
                     int day) {
-                /**
-                 * Metodin avulla paikannetaan kayttajan valitsema pvm CalendarWidgetissa. Pvm tulostuu toastilla
-                 * */
-
 
                 switch (month){     // changing int month to string m (jan == 0, dec == 11 because java counts from 0)
                     case 0:
@@ -101,21 +99,18 @@ public class Calendar extends AppCompatActivity {
         });
 
     }
-
+    /**
+     * show schedule -napin avulla kayttaja siirtyy aikataululistaan (onClick)
+     * */
     public void openSchedule(View view){
-        /**
-         * show schedule -napin avulla kayttaja siirtyy aikataululistaan (onClick)
-         * */
 
         Intent intent = new Intent(this, Schedule.class);
         startActivity(intent);
     }
-
+    /**
+     * imagebuttonin avulla kayttaja siirtyy takaisin etusivulle (onClick)
+     * */
     public void backToMain(View view) {
-
-        /**
-         * imagebuttonin avulla kayttaja siirtyy takaisin etusivulle (onClick)
-         * */
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
