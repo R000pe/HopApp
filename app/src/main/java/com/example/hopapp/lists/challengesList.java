@@ -23,7 +23,8 @@ import com.example.hopapp.TaskViewActivity;
 
 import java.util.ArrayList;
 /**
- * @author sanku
+ * Luo anxiety luokan lista ja siihen liittyvät methodit
+ * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  * */
 public class challengesList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
@@ -63,24 +64,29 @@ public class challengesList extends AppCompatActivity implements RoutinePageAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenges_list);
-        //hide the bar above this activity
+        //piilota aktiviteetin yläpuolella oleva palkko
         getSupportActionBar().hide();
 
         recyclerViewAll = findViewById(R.id.challengesRecyclerView);
 
-        //this is the list
+        //Lisää nämä listalle
         routineList.add( new Routine(R.drawable.x_routine_nosugar,"Sugar break", "Don't eat excess sugar for a week"));
         routineList.add( new Routine(R.drawable.x_routine_noscreen,"Maybe impossible", "Lessen your screen time to 2h a day"));
         routineList.add( new Routine(R.drawable.x_routine_posture,"Bad back", "Mind your posture"));
         routineList.add( new Routine(R.drawable.x_routine_poet,"A poet", "Write a poem"));
 
 
-        //new adapter for recycle view
+        //Uusi adapteri
         RoutinePageAdapter reeAdapter = new RoutinePageAdapter(routineList, this);
         recyclerViewAll.setAdapter(reeAdapter);
         recyclerViewAll.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /**
+     * Aseta parametrit extroihin
+     * Avaa uusi intent, joka näyttää tarkemmat tiedot rutiinista
+     * @param position hankkii onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onClick(int position) {
         //make new intent for mainclass
@@ -97,6 +103,11 @@ public class challengesList extends AppCompatActivity implements RoutinePageAdap
         startActivity(intent);
     }
 
+    /**
+     * Uusi intent Main Activitylle, joka lisää intentin avulla extroihin parametrit
+     * ja addToRoutineList methodin kautta lisää ne etusivun listalle
+     * @param position hakee onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onAddClick(int position) {
 

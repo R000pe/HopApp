@@ -25,7 +25,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author sanku
+ * Luo anxiety luokan lista ja siihen liittyvät methodit
+ * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  * */
 
@@ -67,12 +68,12 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anxiety_list);
-        //hide the bar above this activity
+        //piilota aktiviteetin yläpuolella oleva palkko
         getSupportActionBar().hide();
 
         recyclerViewAll = findViewById(R.id.anxietyRecycleView);
 
-        //this is the list
+        //Lisää nämä kaikki listaan
         routineList.add( new Routine(R.drawable.x_routine_breath,"Breath", "Breath slowly in and out for 3 to 5 minutes"));
         routineList.add(new Routine(R.drawable.x_routine_talk,"Talk about your feelings", "Try talking about your feelings to a friend, family or professional"));
         routineList.add(new Routine(R.drawable.x_routine_exercise,"Exercise", "Activities such as running, yoga and swimming can help you relax"));
@@ -81,12 +82,17 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
         routineList.add(new Routine(R.drawable.x_routine_feelings,"Write it down", "Write down your emotions for better understanding"));
         routineList.add(new Routine(R.drawable.x_routine_mindfulness,"Mindfulness", "Practice mindfulness"));
 
-        //new adapter for recycle view
+        //Uusi adapteri
         RoutinePageAdapter reeAdapter = new RoutinePageAdapter(routineList, this);
         recyclerViewAll.setAdapter(reeAdapter);
         recyclerViewAll.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /**
+     * Aseta parametrit extroihin
+     * Avaa uusi intent, joka näyttää tarkemmat tiedot rutiinista
+     * @param position hankkii onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onClick(int position) {
         //make new intent for mainclass
@@ -103,14 +109,17 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
         startActivity(intent);
     }
 
+    /**
+     * Uusi intent Main Activitylle, joka lisää intentin avulla extroihin parametrit
+     * ja addToRoutineList methodin kautta lisää ne etusivun listalle
+     * @param position hakee onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onAddClick(int position) {  // this method adds the routine
 
         routinePosition = position;
 
-        System.out.println("onAddClick");
-
-        //make new intent for mainclass
+        //uusi intent main classille
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
         mediaPlayer.start();
         intent = new Intent(this, MainActivity.class);

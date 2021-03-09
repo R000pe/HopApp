@@ -7,21 +7,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//this is a new activity, which opens when a task on the list is clicked
-//gives a more detailed description about the task
+/**
+ * Luokka luo akitiveetin, josta käyttäjä saa tarkempia tietoja rutiinista
+ * @author Wilma Paloranta
+ * @version 1.1 3/2021
+ */
 
 public class TaskViewActivity extends AppCompatActivity {
 
-    //make parameters for the page's content
+    //luo parametrit
     ImageView detailImageView;
     TextView detailTitleTextView, detailDescTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_view);
-
+        /*
+        Aseta parametrit id:n avulla,
+        Extran kautta saadaan niille uuden arvot, jotka asetetaan,
+        jos extrat eivät ole null
+         */
         detailTitleTextView = findViewById(R.id.detailTitleTextView);
         detailDescTextView = findViewById(R.id.detailDescTextView);
         detailImageView = findViewById(R.id.detailImageView);

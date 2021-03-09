@@ -13,32 +13,41 @@ import com.example.hopapp.lists.customList;
 import com.example.hopapp.lists.exerciseList;
 import com.example.hopapp.lists.improvementsList;
 
+/**
+ * Luokka sisältää kaikki grid layoutin napit ja intentit uusiin aktiviteettihin
+ * @author Wilma Paloranta
+ * @version 1.1 3/2021
+ */
+
 public class CategoryPage extends AppCompatActivity {
 
     public Button exerciseButton;
     public Button improvementsButton;
     public Button anxietyButton;
     public Button challengesButton;
-    private Button rewardButton;
-    private Button suggestButton;
+    public Button rewardButton;
+    public Button customButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_page);
-        //hide the bar above this activity
+        //Piilota action bar näkyvistä aktiviteetissa
         getSupportActionBar().hide();
         assignButtons();
     }
-
+    /*
+    Aseta napeille id layoutista, ääniefekti, sekä niille tarkoitettu methodi
+    onClickListenerissä
+     */
     private void assignButtons() {
         exerciseButton = findViewById(R.id.buttonExercise);
         improvementsButton = findViewById(R.id.buttonImprovements);
         anxietyButton = findViewById(R.id.buttonAnxiety);
         challengesButton = findViewById(R.id.buttonChallenge);
         rewardButton = findViewById(R.id.buttonReward);
-        suggestButton = findViewById(R.id.buttonCustomC);
+        customButton = findViewById(R.id.buttonCustomC);
 
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
         exerciseButton.setOnClickListener(v -> {
@@ -61,13 +70,16 @@ public class CategoryPage extends AppCompatActivity {
             mediaPlayer.start();
             claimReward();
         });
-        suggestButton.setOnClickListener(v -> {
+        customButton.setOnClickListener(v -> {
             mediaPlayer.start();
             openSuggestedPage();
         });
 
     }
 
+    /**
+     * Luo kaikki methodit, jotka avaa uusia aktiviteettejä
+     */
     public void openExercisePage() {
         Intent exerciseIntent = new Intent(this, exerciseList.class);
         startActivity(exerciseIntent);
