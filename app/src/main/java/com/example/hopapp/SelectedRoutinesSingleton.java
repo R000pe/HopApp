@@ -28,7 +28,7 @@ public class SelectedRoutinesSingleton {
     public static SelectedRoutinesSingleton getInstance() {
         if (ourInstance == null) {
             ourInstance = new SelectedRoutinesSingleton();
-            // create an instance only if there is no previous instance
+            // instanssi luodaan vain silloin, kun instassia ei ole luotu jo.
         }
         return ourInstance;
     }

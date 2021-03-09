@@ -31,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 /**
+ * Listan aktiviteeteille asetetaan pvm
  * @author sanku
  * @version 1.1 03/2021
  * */
@@ -45,20 +46,19 @@ public class customList extends AppCompatActivity implements RoutinePageAdapter.
     private int year, month, day, routinePosition; // these will be later used in datepickerdialog
     private DatePickerDialog datePicker;
     private Intent intent;
-
+/**
+* DatePickerDialogin OnDateSetListenerin avulla kayttaja valitsee aktiviteetilleen toivomansa pvm:n
+ * tupsahtaneen kalenterinakyman avulla. Arvot lisataan aktiviteetille.
+* */
     private DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
-            routineList.get(routinePosition).setYear(year);    // setting the date into the routine
+            routineList.get(routinePosition).setYear(year);    // paivamaaran arvot lisätään rutiiniin
             routineList.get(routinePosition).setMonth(month);
             routineList.get(routinePosition).setDayOfMonth(day);
 
-            System.out.println(routineList.get(routinePosition).getDateFull());
-
-            System.out.println(routineList.get(routinePosition));
-
-            intent.putExtra("YEAR", routineList.get(routinePosition).getYear());
+            intent.putExtra("YEAR", routineList.get(routinePosition).getYear());    // arvot lähetetään eteenpäin (mainactivityyn)
             intent.putExtra("MONTH", routineList.get(routinePosition).getMonth());
             intent.putExtra("DAY", routineList.get(routinePosition).getDayOfMonth());
 
@@ -165,6 +165,10 @@ public class customList extends AppCompatActivity implements RoutinePageAdapter.
         startActivity(intent);
     }
 
+    /**
+     * aktiviteetille valitaan pvm
+     * @param position sijainti
+     */
     @Override
     public void onAddClick(int position) {
         //make new intent for mainclass
@@ -179,8 +183,8 @@ public class customList extends AppCompatActivity implements RoutinePageAdapter.
         main.addRoutineToList();
         PreConfig.writeListInPref(getApplicationContext(), s.selectedRoutines);
 
-        // sanna
-        // calling for java's in-built calendar's current values
+
+        // javan omasta kalenterista poimitaan tämänhetkiset arvot päivälle, kuukaudelle ja vuodelle
         year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
         month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
         day = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH);
