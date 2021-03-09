@@ -39,7 +39,7 @@ import java.util.Objects;
 
 /**
  * Luokka sisältää pääsivun listan ja muun sisällön luomiseen liittyvöt osat
- * @author Wilma Paloranta, Sanna Kukkonen, Roope Sarasoja
+ * @author Wilma Paloranta, sanku, Roope Sarasoja
  * @version 1.1 3/2021
  */
 
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences scorePrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean notificationsMute = scorePrefs.getBoolean("notification_mute", true);
         AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        if (notificationsMute == true) {
+        if (notificationsMute) {
             amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0);
         } else {
             amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0);
@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
     }
 
 
@@ -330,30 +329,27 @@ public class MainActivity extends AppCompatActivity {
 
             while (y == 0) {
                 Routine r = new Routine(image, title, desc);
-                //after current while loop object r wont have a reference & will be deleted by garbage collector
 
-                for (int i = 0; i < s.getSelectedRoutines().size(); i++) { // a for loop through singleton's selectedroutines-list
-                    if (s.getSelectedRoutines().get(i).getTitle().equals(r.getTitle())) { // once a similar object is found ..
+                // käynnissäolevan whileloopin jälkeen objektilla r ei ole enää referenssiä & garbage collector siivoaa sen pois
+                for (int i = 0; i < s.getSelectedRoutines().size(); i++) {  //  for-silmukan avulla kuljetaan ainokaisen selectedroutines-lista läpi
+                    if (s.getSelectedRoutines().get(i).getTitle().equals(r.getTitle())) { // jos samanniminen objekti löytyy listalta ..
                         y = 2;
-                        break; // .. for loop will be abrupted
+                        break; // .. for-silmukka lopetetaan
                     }
                 }
 
-                if (y == 2) { // if the for loop turned y = 2 ..
-                    break; // .. while loop will be abrupted
+                if (y == 2) { // mikäli edellinen for-silmukka muunsi y-parametrin arvoksi 2
+                    break; // .. whileloop keskeytetään
                 }
 
-                y = 1; // if no similar object is found in singleton's list, y = 1
-            } // end of while loop
+                y = 1; // mikäli samanlaista objektia singletonin listasta ei löydy, y = 1
+            } // while-silmukka päättyy tässä
 
-            if (y == 1) { // if y = 1 after previous while loop ..
-                //add to the main page list
-                //s.getSelectedRoutines().add(index, new Routine(image, title, desc)); // .. the object will be added to the list
+            if (y == 1) { // jos edellsen while-silmukan jälkeen y:n arvo on 1, uusi objekti luodaan & lisätään singletonin listaan
+
                 s.getInstance().getSelectedRoutines().add(new Routine(image, title, desc, year, month, day));
                 PreConfig.writeListInPref(getApplicationContext(), s.getSelectedRoutines());
             }
-
-            System.out.println(s.getSelectedRoutines().size()); // should be deleted later
 
             //update the message so it disappears
             updateMessage();

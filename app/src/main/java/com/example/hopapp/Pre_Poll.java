@@ -17,18 +17,29 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+/**
+ * Luokka Esitietokysely aktiviteetille.
+ *
+ * @author Roope
+ * @version 1.1
+ */
 public class Pre_Poll extends AppCompatActivity {
     private EditText TextName, TextAge;
 
-
-
+    /**
+     * Kutusutaan kun luokka luodaan. asettaa nakymaksi esitietoaktiviteetin
+     *
+     * @param savedInstanceState sisaltaa aktiviteetin tallennetun instancen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre__poll);
     }
 
-    //Ad User information to Settings
+    /**
+     * Kun aktiviteetti pysaytetaan, muutetaan bool arvo jotta esitieto ei aukea enää uudelleen. Ja tallennetaann kayttajan lisaamat tiedot asetuksiin
+     */
     protected void onPause() {
         super.onPause();
         SharedPreferences settings_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -40,7 +51,6 @@ public class Pre_Poll extends AppCompatActivity {
                 .putBoolean("isFirstRun", false).apply();
 
 
-
         String name = TextName.getText().toString();
         String age = TextAge.getText().toString();
 
@@ -49,8 +59,11 @@ public class Pre_Poll extends AppCompatActivity {
         settings_editor.putString("age", age).commit();
     }
 
-
-    public void onButtonCLicked(View view) {
+    /**
+     * Napin painalluksella sovellus jatkaa pääsivulle
+     * @param view Lisaa napin view
+     */
+    public void onApplyButtonCLicked(View view) {
         startActivity(new Intent(Pre_Poll.this, MainActivity.class));
         finish();
     }

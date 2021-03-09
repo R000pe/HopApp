@@ -7,16 +7,26 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
+/**
+ * Asetusten luokka lue asetustukset fragmentilla
+ * @author Roope
+ * @version 1.1 3/2021
+ *
+ */
 public class Settings extends PreferenceActivity {
-
+    /**
+     * Kutusutaan kun luokka luodaan.
+     * @param savedInstanceState sisaltaa aktiviteetin tallennetun instancen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
     }
-
+    /**
+     * Täyttää hierarkian XMl atribuutilla
+     * */
     public static class MyPreferenceFragment extends PreferenceFragment {
-
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

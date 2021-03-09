@@ -11,6 +11,11 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Schedule extends AppCompatActivity {
+    /**
+     * Aikataululuokka esittelee kayttajan valitsemat tehtavat paivamaarineen ListViewssa
+     * @author sanku
+     * @version 1.1 03/2021
+     */
 ListView lv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -13,10 +13,20 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+/**
+ * Luokka hallinnoi Palkinto aktiviteettia
+ *
+ * @author Roope
+ * @version 1.1
+ */
 public class Reward extends Activity {
     private TextView pointText;
 
 
+    /**
+     * Kutusutaan kun luokka luodaan. Luodaan popup ikkuna displaymetrics avulla ja maaritellaan popupikkunan koko.
+     * @param savedInstanceState sisaltaa aktiviteetin tallennetun instancen
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +41,11 @@ public class Reward extends Activity {
         UpdateUI();
     }
 
-    //Check score and reduce if enough. Closes window with message
+    /**
+     * Kun nappia painetaan haetaan sharedpreferenceista pistemaara. Tallennetaan uusi pistemaara jos vähennys tapahtui ja suljetaan aktiviteetti.
+     *
+     * @param view Palkinto napin view
+     */
     public void onRewardButtonClicked(View view) {
         SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         int score = Integer.parseInt(score_prefs.getString("score", "0"));
@@ -48,7 +62,9 @@ public class Reward extends Activity {
         finish();
     }
 
-    //Get score from sharedprferences and update score text
+    /**
+     * Hakee pisteet sharedpreferenseista ja Päivittää aktiviteetissa olevan pisteview pistemaaralla.
+     */
     public void UpdateUI() {
         pointText = findViewById(R.id.pointText);
         SharedPreferences score_prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());

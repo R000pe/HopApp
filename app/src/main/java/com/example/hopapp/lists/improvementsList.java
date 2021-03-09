@@ -22,7 +22,10 @@ import com.example.hopapp.SelectedRoutinesSingleton;
 import com.example.hopapp.TaskViewActivity;
 
 import java.util.ArrayList;
-
+/**
+ * @author sanku
+ * @version 1.1 03/2021
+ * */
 public class improvementsList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
 
     //we need to make new main, because main's list is nonstatic, so you cant reference its methods without this
