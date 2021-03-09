@@ -10,6 +10,13 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.widget.TextView;
 
+import java.util.Objects;
+
+/**
+ * Luokka sisältää tervetuloa sivun
+ * @author Wilma Paloranta
+ * @version 1.1 3/2021
+ */
 
 public class HomeActivity extends AppCompatActivity {
     private TextView err;
@@ -21,23 +28,26 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //If first time opening the app
+        /*
+          Luo isFirstRun arvo, jonka avulla käyttäjän tietoja kysytään vain kerran
+          defValue = true
+          Jos on isFirstRun on true avaa Pre_Poll aktiviteetti, josta
+          sovellus kysyy käyttäjän tiedot
+         */
         isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
-
         if (isFirstRun) {
             //Open pre poll information page
             Intent Pre_PollIntent = new Intent(HomeActivity.this, Pre_Poll.class);
             startActivity(Pre_PollIntent);
-
         }
 
-
-
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         setName();
 
+        //Jos appia ei käynnistetä ensimmäistä kertaa,
+        //avaa Main activity 4s jälkeen
         Handler handler =new Handler();
         if (!isFirstRun) {
             handler.postDelayed(new Runnable() {
@@ -46,12 +56,13 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(new Intent(HomeActivity.this, MainActivity.class));
                     finish();
                 }
-            }, 30);
+            }, 4000);
         }
-        //later should be put to 4000 (4s)
     }
 
-
+    /**
+     * Aseta käyttäjän pre pollissa antama nimi Welcome sivulle
+     */
     @SuppressLint("SetTextI18n")
     private void setName (){
         err = findViewById(R.id.textWelcome);

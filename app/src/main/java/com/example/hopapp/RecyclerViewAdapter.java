@@ -28,46 +28,66 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.lang.invoke.ConstantCallSite;
 import java.util.ArrayList;
 
+/**
+ * Luokka sisältää adapaterin Main Activityn listaa varten
+ * @author Wilma Paloranta
+ * @version 1.1 3/2021
+ */
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
-    private ArrayList<Routine> mRoutineList;
-    private RecyclerViewClickListener listener;
+    private final ArrayList<Routine> mRoutineList;
+    private final RecyclerViewClickListener listener;
     Context mcontext;
 
-
+    /**
+     * Uusi RecyclerViewAdapter
+     * @param mcontext hanki aktiviteetin contexti
+     * @param routineList aseta lista
+     * @param listener aseta onclick listener
+     */
     public RecyclerViewAdapter(Context mcontext, ArrayList<Routine> routineList, RecyclerViewClickListener listener){
         this.mcontext = mcontext;
         mRoutineList = routineList;
         this.listener = listener;
     }
 
+    /**
+     * MyViewHolder asettaa kaikki listalla näkyvät ja sille tulevat osat
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView mImageView;
         public TextView mTextView1;
-        public TextView mTextView2;
-        public ImageView mAddRoutine;
         ConstraintLayout container;
 
 
-        //viewholder makes the actual view, so here we set the text and image id
+        /**
+         * @param itemView Luo uusi View, jolle asetetaan id:n avulla teksti, kuvat,
+         *                 contraintlayout sekä onclick Listener
+         */
         public MyViewHolder (View itemView){
             super(itemView);
             container = itemView.findViewById(R.id.container);
             mImageView = itemView.findViewById(R.id.routineImageView);
             mTextView1 = itemView.findViewById(R.id.routine_title);
-            //mTextView2 = itemView.findViewById(R.id.routine_desc);
-            //this is the plus sign, needs to be removed later from this adapter
             itemView.setOnClickListener(this);
-
-            //itemView.setOnClickListener(this);
         }
 
+        /**
+         * OnClick method, jota activity main kutsuu
+         * @param v hankkii Viewin tarvitsemat parametrit
+         */
         @Override
         public void onClick(View v) {
             listener.onClick(itemView, getAdapterPosition());
         }
     }
 
-
+    /**
+     * Asettaa My_Row kortin listaan ja palauttaa sen arvon
+     * @param parent hankkii layoutille kortin
+     * @param viewType palauttaa rowin view tyypin
+     * @return palauttaa kortin
+     */
     @NonNull
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_row, parent, false);
@@ -75,6 +95,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return evh;
     }
 
+    /**
+     * Aseta animaatio listalle/sen containerille (contraintLayout)
+     * Aseta data listalle
+     * @param holder luo uusi myViewHolder
+     * @param position hanki kortin indeksi
+     */
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         //bind data here
@@ -87,11 +113,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //holder.mTextView2.setText(currentRoutine.getDesc());
     }
 
-    //makes the right size list
+    /**
+     * Luo listan kokonainen RecyclerView Lista
+     * @return palauta lista
+     */
     public int getItemCount() {
         return mRoutineList.size();
     }
 
+    /**
+     * Interface OnClickListenerille
+     * hankkii kortin tiedot ja sen indeksin
+     */
     public interface RecyclerViewClickListener{
         void onClick(View v, int position);
     }

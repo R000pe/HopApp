@@ -99,12 +99,11 @@ public class MainActivity extends AppCompatActivity {
             amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0);
         }
 
-        /**
-         * luo uuden swipe refresh layout
-         * ilmoittaa adapteriin datan "muutoksesta"
-         * muuttaa refreshing pois päältä
+        /*
+          luo uuden swipe refresh layout
+          ilmoittaa adapteriin datan "muutoksesta"
+          muuttaa refreshing pois päältä
          */
-
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
