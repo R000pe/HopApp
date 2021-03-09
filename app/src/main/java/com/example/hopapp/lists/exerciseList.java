@@ -20,7 +20,6 @@ import com.example.hopapp.Routine;
 import com.example.hopapp.RoutinePageAdapter;
 import com.example.hopapp.SelectedRoutinesSingleton;
 import com.example.hopapp.TaskViewActivity;
-import com.example.hopapp.customList;
 
 import java.util.ArrayList;
 

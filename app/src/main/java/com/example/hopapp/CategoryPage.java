@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.hopapp.lists.anxietyList;
 import com.example.hopapp.lists.challengesList;
+import com.example.hopapp.lists.customList;
 import com.example.hopapp.lists.exerciseList;
 import com.example.hopapp.lists.improvementsList;
 
@@ -20,6 +21,7 @@ public class CategoryPage extends AppCompatActivity {
     public Button challengesButton;
     private Button rewardButton;
     private Button suggestButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

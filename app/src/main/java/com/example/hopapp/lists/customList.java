@@ -1,4 +1,4 @@
-package com.example.hopapp;
+package com.example.hopapp.lists;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -9,23 +9,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.hopapp.lists.anxietyList;
+import com.example.hopapp.MainActivity;
+import com.example.hopapp.PreConfig;
+import com.example.hopapp.R;
+import com.example.hopapp.Routine;
+import com.example.hopapp.RoutinePageAdapter;
+import com.example.hopapp.SelectedRoutinesSingleton;
+import com.example.hopapp.TaskViewActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class customList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
     MainActivity main = new MainActivity();
