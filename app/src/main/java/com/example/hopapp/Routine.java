@@ -1,7 +1,7 @@
 package com.example.hopapp;
 /**
  * Tehtavien luokka
- * @author sanku
+ * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  */
 public class Routine {

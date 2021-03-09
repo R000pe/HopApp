@@ -25,8 +25,7 @@ import java.util.ArrayList;
 
 /**
  *
- * Luo anxiety luokan lista ja siihen liittyvät methodit
- * Listan aktiviteeteille asetetaan pvm
+ * Luo anxiety luokan listan ja siihen liittyvät methodit
  * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  * */
@@ -69,7 +68,7 @@ public class anxietyList extends AppCompatActivity implements RoutinePageAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anxiety_list);
-        //piilota aktiviteetin yläpuolella oleva palkko
+        //piilota aktiviteetin yläpuolella olevan palkin
         getSupportActionBar().hide();
 
         recyclerViewAll = findViewById(R.id.anxietyRecycleView);

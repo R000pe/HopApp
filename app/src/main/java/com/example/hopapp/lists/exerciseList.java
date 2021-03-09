@@ -23,7 +23,8 @@ import com.example.hopapp.TaskViewActivity;
 
 import java.util.ArrayList;
 /**
- * @author sanku
+ * Luo exercise luokan listan ja siihen liittyvät methodit
+ * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  * */
 public class exerciseList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
@@ -67,12 +68,12 @@ public class exerciseList extends AppCompatActivity implements RoutinePageAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_list);
-        //hide the bar above this activity
+        //piilota aktiviteetin yläpuolella olevan palkin
         getSupportActionBar().hide();
 
         recyclerViewAll = findViewById(R.id.exerciseRecycleView);
 
-        //this is the list
+        //lisää nämä listalle
         routineList.add( new Routine(R.drawable.rabbit_stretch,"Stretch", "Stretch for 10 minutes"));
         routineList.add(new Routine(R.drawable.z_routine_run,"Go for a run", "Run for 10 minutes"));
         routineList.add(new Routine(R.drawable.z_routine_pushup,"Pushups", "Do 20 pushups"));
@@ -80,12 +81,17 @@ public class exerciseList extends AppCompatActivity implements RoutinePageAdapte
         routineList.add(new Routine(R.drawable.z_routine_swim,"Fish like trish", "Go for a swim"));
 
 
-        //new adapter for recycle view
+        //uusi adapteri
         RoutinePageAdapter reeAdapter = new RoutinePageAdapter(routineList, this);
         recyclerViewAll.setAdapter(reeAdapter);
         recyclerViewAll.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /**
+     * Aseta parametrit extroihin
+     * Avaa uusi intent, joka näyttää tarkemmat tiedot rutiinista
+     * @param position hankkii onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onClick(int position) {
         //make new intent for mainclass
@@ -102,6 +108,11 @@ public class exerciseList extends AppCompatActivity implements RoutinePageAdapte
         startActivity(intent);
     }
 
+    /**
+     * Uusi intent Main Activitylle, joka lisää intentin avulla extroihin parametrit
+     * ja addToRoutineList methodin kautta lisää ne etusivun listalle
+     * @param position hakee onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onAddClick(int position) {
 

@@ -31,8 +31,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Listan aktiviteeteille asetetaan pvm
- * @author sanku
+ * Luo luokan lista, listan aktiviteeteille asetetaan pvm
+ * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  * */
 public class customList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
@@ -74,15 +74,13 @@ public class customList extends AppCompatActivity implements RoutinePageAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_list);
-        //hide the bar above this activity
+        //piilota aktiviteetin yläpuolella oleva palkki
         getSupportActionBar().hide();
 
 
         recyclerViewAll = findViewById(R.id.suggestedRecyclerView);
 
-        //this is the list
-
-        //new adapter for recycle view
+        //uusi adapteri
         reeAdapter = new RoutinePageAdapter(routineList, this);
         recyclerViewAll.setAdapter(reeAdapter);
         recyclerViewAll.setLayoutManager(new LinearLayoutManager(this));
@@ -107,49 +105,60 @@ public class customList extends AppCompatActivity implements RoutinePageAdapter.
 
 
     }
-
-    //set a simplecallback which reacts to gestures
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT |
-            ItemTouchHelper.RIGHT) {
+    /**
+     * Luo uuden ItemTouchHelperi, jonka avulla listan kortteja voi
+     * heittää vasemmalle
+     */
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         //this does nothing for now
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
         }
 
+        /**
+         *onSwiped viewholder etsii adapterin kautta käytössä olevan kortin indeksin
+         *  int Direction valitsee suunnan mihin korttia siirretään
+         * @param viewHolder kortin viewholderin avulla saadaan indeksi, int position
+         * @param direction int tarkastelee mihin suuntaan korttia vedetään
+         * Luo uusi AlertDialog, joka varmistaa haluatko poistaa kyseisen tehtävän
+         * Vasemmalle vedettäessä kortti poistetaan, ja kysytään varmistusta
+         */
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
 
-            switch (direction) {
-                case ItemTouchHelper.LEFT:
-                    //Alert dialog confirming deletion of routine on the list
-                    new AlertDialog.Builder(viewHolder.itemView.getContext())
-                            .setTitle("Delete Routine")
-                            .setMessage("Do you really want to delete this routine?")
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+            if (direction == ItemTouchHelper.LEFT) {//Alert dialog confirming deletion of routine on the list
+                new AlertDialog.Builder(viewHolder.itemView.getContext())
+                        .setTitle("Delete Routine")
+                        .setMessage("Do you really want to delete this routine?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
 
-                            .setPositiveButton("YES", (dialog, whichButton) -> {
+                        .setPositiveButton("YES", (dialog, whichButton) -> {
                                 /*User selects yes in alert dialog,
                                 Task gets deleted from list and main menu.*/
-                                routineList.remove(position);
-                                reeAdapter.notifyItemRemoved(position);
-                                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Routine Deleted", Snackbar.LENGTH_LONG);
-                                snackbar.show();
+                            routineList.remove(position);
+                            reeAdapter.notifyItemRemoved(position);
+                            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Routine Deleted", Snackbar.LENGTH_LONG);
+                            snackbar.show();
 
-                            })
-                            .setNegativeButton("NO", (dialog, id) -> {
+                        })
+                        .setNegativeButton("NO", (dialog, id) -> {
                                 /* User cancelled the dialog,
                                  so we will refresh the adapter to prevent hiding the item from UI*/
-                                reeAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                            })
-                            .create()
-                            .show();
-                    break;
+                            reeAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                        })
+                        .create()
+                        .show();
             }
         }
     };
 
+    /**
+     * Aseta parametrit extroihin
+     * Avaa uusi intent, joka näyttää tarkemmat tiedot rutiinista
+     * @param position hankkii onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onClick(int position) {
         //make new intent for mainclass
@@ -167,8 +176,11 @@ public class customList extends AppCompatActivity implements RoutinePageAdapter.
 
     /**
      * aktiviteetille valitaan pvm
-     * @param position sijainti
+     * Uusi intent Main Activitylle, joka lisää intentin avulla extroihin parametrit
+     * ja addToRoutineList methodin kautta lisää ne etusivun listalle
+     * @param position hakee onclick:in alaisena olevan kortin indeksin
      */
+
     @Override
     public void onAddClick(int position) {
         //make new intent for mainclass
