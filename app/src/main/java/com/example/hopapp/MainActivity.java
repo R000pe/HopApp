@@ -32,53 +32,56 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 //This is the main page with recycleView.
 // RecycleView is similar to list view, but more flexible (animations, etc).
 
+/**
+ * Luokka sisältää pääsivun listan ja muun sisällön luomiseen liittyvöt osat
+ * @author Wilma Paloranta, sanku, Roope Sarasoja
+ * @version 1.1 3/2021
+ */
+
 
 public class MainActivity extends AppCompatActivity {
-    //Make a new recycle view
+
     public RecyclerView recyclerView;
     RecyclerViewAdapter myAdapter;
     public SelectedRoutinesSingleton s = SelectedRoutinesSingleton.getInstance();
     private RecyclerViewAdapter.RecyclerViewClickListener listener;
 
-    //make buttons
     public ImageButton mainMenuButton;
     public ImageButton taskButton;
     public ImageButton calendarButton;
     SwipeRefreshLayout swipeRefreshLayout;
-
 
     Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        popupMessage();
-        //remembers the last instance state
         super.onCreate(savedInstanceState);
-        //we're using the main page activity
-        setContentView(R.layout.activity_main);
-        //hide the bar above this activity
-        getSupportActionBar().hide();
-        //set the recycle view into a parameter
-        recyclerView = findViewById(R.id.recyclerView);
-        //s.getSelectedRoutines() = PreConfig.readListFromPref(this);
-        s.selectedRoutines = PreConfig.readListFromPref(this);
 
+        setContentView(R.layout.activity_main);
+
+        //piilottaa palikan activityn yläpuolelta
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
+        recyclerView = findViewById(R.id.recyclerView);
+
+        /**
+         * Preference configuration luokan methodin avulla tallennetu lista tuodaan takaisin
+         * jos listaa ei ole se luodaan
+         */
+        s.selectedRoutines = PreConfig.readListFromPref(this);
         if (s.selectedRoutines == null)
             s.selectedRoutines = new ArrayList<>();
 
-        //1. makes the adapter for this recycle view
-        //2. update the null message on main page
-        //3. assign the buttons, and what they do
         adapterMethod();
         updateMessage();
         assignButtons();
 
-        //PreConfig.writeListInPref(getApplicationContext(), s.getSelectedRoutines());
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -96,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
             amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0);
         }
 
+        /**
+         * luo uuden swipe refresh layout
+         * ilmoittaa adapteriin datan "muutoksesta"
+         * muuttaa refreshing pois päältä
+         */
+
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -104,15 +113,29 @@ public class MainActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
     }
 
+
+    /**
+     * luo uusi adapteri tälle luokalle ja recycler view listalle
+     * adapteri ottaa tämän luokan singletonin listan, ja onclick listenerin
+     * aseta layoutmanageri tälle luokalle
+     */
     private void adapterMethod() {
         setOnClickListener();
         myAdapter = new RecyclerViewAdapter(this, (ArrayList<Routine>) s.getSelectedRoutines(), listener); //täällä luki routineList
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
+
+    /**
+     *Luo on click listener luokalle
+     * Uusi mediaplayer napsahdus ääntä varten
+     * Public void int position kertoo klickatun kortin indeksin
+     * Kyseisen indeksin kortista etsitään title, desc ja image tiedot, jotka lisätään
+     * intentin extraan
+     * Aloita uusi activiteetti
+     */
     private void setOnClickListener() {
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
         listener = new RecyclerViewAdapter.RecyclerViewClickListener() {
@@ -128,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * Jos Main Activityn listalla ei ole mitään
+     * Päivittyy sivulle "No routines set yet" teksti
+     * Muuten teksti on tyhjä
+     */
     private void updateMessage() {
         TextView textNull = (TextView) findViewById(R.id.nullText);
         if (s.getSelectedRoutines().size() <= 0) { //täällä luki routineList.size()
@@ -137,14 +165,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Aseta sivun kaikki napit, niille media player
+     * sekä uuden aktiviteetin avaamismethodi
+     */
     private void assignButtons() {
-
-
         mainMenuButton = findViewById(R.id.mainMenuButton);
         taskButton = findViewById(R.id.taskButton);
         calendarButton = findViewById(R.id.calendarButton);
 
-        //assign the click sound on the buttons
+        //aseta ääni napeille
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,12 +198,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
-    //set a simplecallback which reacts to gestures
+    /**
+     * Luo uuden ItemTouchHelperi, jonka avulla listan kortteja voi
+     * heittää oikealle tai vasemmalle
+     */
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT |
             ItemTouchHelper.RIGHT) {
         @Override
@@ -182,7 +212,17 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
-        //determines what happens when you swipe something on the list right / left
+        /**
+         *onSwiped viewholder etsii adapterin kautta käytössä olevan kortin indeksin
+         *  int Direction valitsee suunnan mihin korttia siirretään
+         * @param viewHolder kortin viewholderin avulla saadaan indeksi, int position
+         * @param direction int tarkastelee mihin suuntaan korttia vedetään
+         * Luo uusi AlertDialog, joka varmistaa haluatko poistaa kyseisen tehtävän
+         * Vasemmalle vedettäessä kortti poistetaan, ja kysytään varmistusta
+         * Oikealle vedettäessä kortti poistetaan, mutta käyttäjä saa myös pisteen tehtävän
+         * suorittamisesta
+         * Tee aina updateMessage() methodi sen varalta, että lista tyhjenee
+         */
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
@@ -233,19 +273,20 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    //get intent and change activities to main menu
+    /**
+     * Luo methodit uusien activiteettien avaamiseen
+     */
+
     public void openActivityMainMenu() {
         Intent mainMenuIntent = new Intent(this, Settings.class);
         startActivity(mainMenuIntent);
     }
 
-    //get intent and change activities to routines page
     public void openCategoryPage() {
         Intent categoryPage = new Intent(this, CategoryPage.class);
         startActivity(categoryPage);
     }
 
-    //get intent and change activities to calendar
     public void openCalendar() {
         Intent calendarIntent = new Intent(this, Calendar.class);
         startActivity(calendarIntent);
@@ -258,6 +299,14 @@ public class MainActivity extends AppCompatActivity {
         addRoutineToList();
     }
 
+    /**
+     * Jos extrat (jotka saadaan muista listoista) ei ole tyhjä
+     * Aseta extrasta saadut tiedot uusiin parametreihin
+     *
+     * Ota singletonin instanssi ja lisää singleton listaan extroista saadut tiedot
+     * Tallenna pref Configiin
+     * Päivitä tyhjän listan varoitus viesti
+     */
     public void addRoutineToList() {
 
         //if extras, aka intent isn't empty
@@ -266,14 +315,12 @@ public class MainActivity extends AppCompatActivity {
             String title;
             String desc;
             int image;
-            int index;
             int year, month, day;
 
             //get intent and assign them to parameters
             title = extras.getString("title");
             desc = extras.getString("desc");
             image = extras.getInt("image");
-            index = extras.getInt("index");
             year = extras.getInt("YEAR");
             month = extras.getInt("MONTH");
             day = extras.getInt("DAY");
@@ -282,41 +329,30 @@ public class MainActivity extends AppCompatActivity {
 
             while (y == 0) {
                 Routine r = new Routine(image, title, desc);
-                //after current while loop object r wont have a reference & will be deleted by garbage collector
 
-                for (int i = 0; i < s.getSelectedRoutines().size(); i++) { // a for loop through singleton's selectedroutines-list
-                    if (s.getSelectedRoutines().get(i).getTitle().equals(r.getTitle())) { // once a similar object is found ..
+                // käynnissäolevan whileloopin jälkeen objektilla r ei ole enää referenssiä & garbage collector siivoaa sen pois
+                for (int i = 0; i < s.getSelectedRoutines().size(); i++) {  //  for-silmukan avulla kuljetaan ainokaisen selectedroutines-lista läpi
+                    if (s.getSelectedRoutines().get(i).getTitle().equals(r.getTitle())) { // jos samanniminen objekti löytyy listalta ..
                         y = 2;
-                        break; // .. for loop will be abrupted
+                        break; // .. for-silmukka lopetetaan
                     }
                 }
 
-                if (y == 2) { // if the for loop turned y = 2 ..
-                    break; // .. while loop will be abrupted
+                if (y == 2) { // mikäli edellinen for-silmukka muunsi y-parametrin arvoksi 2
+                    break; // .. whileloop keskeytetään
                 }
 
-                y = 1; // if no similar object is found in singleton's list, y = 1
-            } // end of while loop
+                y = 1; // mikäli samanlaista objektia singletonin listasta ei löydy, y = 1
+            } // while-silmukka päättyy tässä
 
-            if (y == 1) { // if y = 1 after previous while loop ..
-                //add to the main page list
-                //s.getSelectedRoutines().add(index, new Routine(image, title, desc)); // .. the object will be added to the list
+            if (y == 1) { // jos edellsen while-silmukan jälkeen y:n arvo on 1, uusi objekti luodaan & lisätään singletonin listaan
+
                 s.getInstance().getSelectedRoutines().add(new Routine(image, title, desc, year, month, day));
                 PreConfig.writeListInPref(getApplicationContext(), s.getSelectedRoutines());
             }
-
-            System.out.println(s.getSelectedRoutines().size()); // should be deleted later
 
             //update the message so it disappears
             updateMessage();
         }
     }
-
-    //Welcome message with user name
-    public void popupMessage() {
-        SharedPreferences name_pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String name = name_pref.getString("full_name", "");
-        Toast.makeText(MainActivity.this, "Hello " + name, Toast.LENGTH_SHORT).show();
-    }
-
 }

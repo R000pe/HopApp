@@ -25,7 +25,6 @@ public class SelectedRoutinesSingleton {
     public List<Routine> selectedRoutines;
     Context context;
 
-
     public static SelectedRoutinesSingleton getInstance() {
         if (ourInstance == null) {
             ourInstance = new SelectedRoutinesSingleton();
@@ -38,6 +37,9 @@ public class SelectedRoutinesSingleton {
         selectedRoutines = new ArrayList<Routine>();
     }
 
+/**
+ * @return selectedRoutines -lista
+ * */
     public List<Routine> getSelectedRoutines() // method, that returns the list
     {
         return this.selectedRoutines;
