@@ -23,7 +23,8 @@ import com.example.hopapp.TaskViewActivity;
 
 import java.util.ArrayList;
 /**
- * @author sanku
+ * Luo improvements luokan listan ja siihen liittyvät methodit
+ * @author sanku, Wilma Paloranta
  * @version 1.1 03/2021
  * */
 public class improvementsList extends AppCompatActivity implements RoutinePageAdapter.OnClickListener {
@@ -67,17 +68,14 @@ public class improvementsList extends AppCompatActivity implements RoutinePageAd
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //remembers the last instance state
         super.onCreate(savedInstanceState);
-        //we're using the main page activity
         setContentView(R.layout.activity_improvements_list);
-        //hide the bar above this activity
+        //piilota aktiviteetin yläpuolella olevan palkin
         getSupportActionBar().hide();
 
-        //set the recycle view into a parameter
         recyclerViewAll = findViewById(R.id.improvementsRecycleView);
 
-        //this is the list
+        //lisää nämä listalle
         routineList.add( new Routine(R.drawable.z_routine_water,"Hydrohomie", "Drink a glass of water every 2 hours"));
         routineList.add(new Routine(R.drawable.z_routine_todo,"To-Do list", "Write your to-do list for the day"));
         routineList.add(new Routine(R.drawable.z_routine_bedtime,"Bedtime", "Go to sleep at 10"));
@@ -87,13 +85,17 @@ public class improvementsList extends AppCompatActivity implements RoutinePageAd
         routineList.add(new Routine(R.drawable.z_routine_read,"Bookworm", "Read a chapter of a book"));
         routineList.add(new Routine(R.drawable.z_routine_create,"Bob Ross", "Do something creative"));
 
-        //new adapter for recycle view
+        //Uusi adapteri
         RoutinePageAdapter reeAdapter = new RoutinePageAdapter(routineList, this);
         recyclerViewAll.setAdapter(reeAdapter);
         recyclerViewAll.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    //what happens, when u click on one of the cards on the recycle view list
+    /**
+     * Aseta parametrit extroihin
+     * Avaa uusi intent, joka näyttää tarkemmat tiedot rutiinista
+     * @param position hankkii onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onClick(int position) {
         //make new intent for mainclass
@@ -110,6 +112,11 @@ public class improvementsList extends AppCompatActivity implements RoutinePageAd
         startActivity(intent);
     }
 
+    /**
+     * Uusi intent Main Activitylle, joka lisää intentin avulla extroihin parametrit
+     * ja addToRoutineList methodin kautta lisää ne etusivun listalle
+     * @param position hakee onclick:in alaisena olevan kortin indeksin
+     */
     @Override
     public void onAddClick(int position) {
         routinePosition = position;
