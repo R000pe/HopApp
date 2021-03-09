@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences scorePrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean notificationsMute = scorePrefs.getBoolean("notification_mute", true);
         AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        if (notificationsMute == true) {
+        if (notificationsMute) {
             amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0);
         } else {
             amanager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0);
